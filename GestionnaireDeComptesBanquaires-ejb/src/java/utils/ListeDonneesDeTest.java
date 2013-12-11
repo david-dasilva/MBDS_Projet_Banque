@@ -4,9 +4,8 @@
  */
 package utils;
 
-import entities.Client;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 /**
  *
@@ -14,17 +13,17 @@ import java.util.Map;
  */
 public class ListeDonneesDeTest {
 
-    public HashMap<String, Integer> l;
+    public LinkedHashMap<String, Integer> l;
 
     public ListeDonneesDeTest() {
-        l = new HashMap<String, Integer>();
+        l = new LinkedHashMap<String, Integer>();
 
         // Here comes!
-        l.put("Joelle Estes", 1225);
-        l.put("Ivana Boone", 4187);
-        l.put("Odessa Valentine", 1713);
-        l.put("Delilah Watkins", 5825);
-        l.put("Mariam Allen", 7082);
+        l.put("* Anonymous United! *", 1337000);
+        l.put("Hadopi", 4187);
+        l.put("Wikileaks", 1713);
+        l.put("MPAA", 5825);
+        l.put("Scientology church", 7082);
         l.put("Glenna Holden", 3018);
         l.put("Ainsley Bell", 738);
         l.put("Ava Monroe", 2035);
@@ -1022,7 +1021,7 @@ public class ListeDonneesDeTest {
         l.put("Linda Macias", 926);
     }
     
-    public HashMap<String, Integer> getListe(){
+    public LinkedHashMap<String, Integer> getListe(){
         return l;
     }
 }

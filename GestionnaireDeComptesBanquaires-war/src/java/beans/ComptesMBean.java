@@ -1,9 +1,9 @@
 package beans;
 
+import entities.Client;
 import entities.CompteBancaire;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -26,13 +26,14 @@ import session.GestionnaireDeComptesBancaires;
 public class ComptesMBean implements Serializable{
     @EJB
     private GestionnaireDeComptesBancaires g;
-    private Collection<CompteBancaire> tousLesComptes;
+    //private Collection<CompteBancaire> tousLesComptes;
     private CompteBancaire compte;
     private long idCompte;
     private double montant;
     private double montantTransfert;
     private CompteBancaire destinationTransfert;
-    private LazyDataModel<CompteBancaire> modele;
+    //private LazyDataModel<CompteBancaire> modele;
+    private LazyDataModel<Client> modele;
     
     // Pages HTML
     private static final String PAGE_DETAIL_COMPTE  = "show";
@@ -43,6 +44,23 @@ public class ComptesMBean implements Serializable{
      * Creates a new instance of ComptesMBean
      */
     public ComptesMBean() {
+        
+        modele = new LazyDataModel<Client>(){
+
+                          @Override
+                          public List load(int i, int i1, String string, SortOrder so, Map map) {
+                              List<Client> clients = new ArrayList<Client>();
+                              clients = g.getLazyClients(i, i1);
+                              return clients;
+                          }            
+                          
+                           @Override     
+                           public int getRowCount() {       
+                               return g.getNBComptes();      
+                           }
+                      }; 
+        
+        /*
         modele = new LazyDataModel<CompteBancaire>(){
 
                           @Override
@@ -56,7 +74,7 @@ public class ComptesMBean implements Serializable{
                            public int getRowCount() {       
                                return g.getNBComptes();      
                            }
-                      }; 
+                      }; */
     }
     
     /**
@@ -127,7 +145,7 @@ public class ComptesMBean implements Serializable{
         System.out.println("### DELETE du compte "+idCompte);
         g.delete(compte);
         // MAJ
-        this.tousLesComptes = getAllComptes();// refresh
+        //this.tousLesComptes = getAllComptes();// refresh
         return redirectTo(PAGE_LISTE_COMPTES, true, null);
     }
     

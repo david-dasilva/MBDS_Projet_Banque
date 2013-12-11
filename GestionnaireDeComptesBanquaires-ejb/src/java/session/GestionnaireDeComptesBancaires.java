@@ -2,8 +2,9 @@ package session;
 
 import entities.Client;
 import entities.CompteBancaire;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.TreeMap;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,12 +51,12 @@ public class GestionnaireDeComptesBancaires {
         
 
         
-        HashMap<String, Integer> liste = new ListeDonneesDeTest().getListe();
+        LinkedHashMap<String, Integer> liste = new ListeDonneesDeTest().getListe();
         
         for(String nom : liste.keySet()){
             Integer solde = liste.get(nom);
             Client c = new Client(nom, "password");
-            c.addCompte(new CompteBancaire(nom, solde));
+            c.addCompte(new CompteBancaire("Compte courant de "+nom, solde));
             creerClient(c);
         }
         
@@ -83,10 +84,14 @@ public class GestionnaireDeComptesBancaires {
      * @return liste de comptes bancaires
      */
     public List<CompteBancaire> getAllComptes() {
-        Query q = em.createQuery("select c from CompteBancaire c order by c.nom");
+        Query q = em.createQuery("select c from CompteBancaire c order by c.id");
         return q.getResultList();
     }
     
+    public List<Client> getAllClients(){
+        Query q = em.createQuery("select c from Client c order by c.id");
+        return q.getResultList();
+    }
     
     /**
      * Recherche de comptes bancaires sur le nom
@@ -100,6 +105,28 @@ public class GestionnaireDeComptesBancaires {
         return q.getResultList();
     }
     
+    public List<Client> findClients(String search) {
+        Query q = em.createQuery("select c from Client c where lower(c.nom) like :search");
+        q.setParameter("search", "%" + search + "%");
+        
+        return q.getResultList();
+    }
+    
+    public List<Client> getLazyClients(int start, int limit){
+        Query q = em.createQuery("select c from Client c order by c.id");
+        q.setFirstResult(start);
+        q.setMaxResults(limit);
+        return q.getResultList();
+    }
+    
+    public int getNBClients(){
+        Query q = em.createQuery("Select count(c) from Client c");
+        return ((Long) q.getSingleResult()).intValue();
+    }
+    public Client getClient(long id){
+        return em.find(Client.class, id);
+    }
+    
     /**
      * Retourne une partie des comptes bancaires pour la pagination
      * @param start
@@ -107,7 +134,7 @@ public class GestionnaireDeComptesBancaires {
      * @return liste de comptes bancaires
      */
     public List<CompteBancaire> getLazyComptes(int start, int limit) { 
-        Query q = em.createQuery("select c from CompteBancaire c");
+        Query q = em.createQuery("select c from CompteBancaire c order by c.id");
         q.setFirstResult(start);
         q.setMaxResults(limit);
         System.out.println("LazyLoading comptes de "+ start+" a "+limit);
@@ -118,6 +145,7 @@ public class GestionnaireDeComptesBancaires {
         Query query = em.createQuery("SELECT COUNT(c) FROM CompteBancaire c");
         return ((Long) query.getSingleResult()).intValue();
     }
+    
     
     /**
      * Retourne un compte bancaire par son ID
@@ -143,6 +171,10 @@ public class GestionnaireDeComptesBancaires {
      */
     public void persist(Object object) {
         em.persist(object);
+    }
+    
+    public void delete(Client c){
+        em.createQuery("delete from client c where c.id="+c.getId()).executeUpdate();
     }
     
     /**

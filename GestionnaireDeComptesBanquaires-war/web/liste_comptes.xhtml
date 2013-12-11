@@ -15,32 +15,40 @@
             <h:form>
                 <h1><h:outputText value="List"/></h1>
                 <p:dataTable value="#{comptesMBean.modele}" 
-                             var="item"
+                             var="client"
                              lazy="true"
                              rows="5"
                              paginator="true"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
                              rowsPerPageTemplate="5,10,15"
-                             rowStyleClass="#{compteBean.colorow(item.solde)}"
-                             emptyMessage="Aucun compte bancaire trouvé." >
+                             rowStyleClass="#{compteBean.colorow(client.solde)}"
+                             emptyMessage="Aucun client trouvé." >
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Id"/>
                         </f:facet>
-                        <h:link outcome="show.xhtml?id=#{item.id}" value="#{item.id}"/>
+                        <h:link outcome="showClient.xhtml?id=#{client.id}" value="#{client.id}"/>
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Solde"/>
+                            <h:outputText value="Nom"/>
                         </f:facet>
-                        <h:outputText value="#{item.solde}"/>
+                        <h:outputText value="#{client.nom}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Nom"/>
+                            <h:outputText value="Comptes"/>
                         </f:facet>
-                        <h:outputText value="#{item.nom}"/>
+                        
+                        
+                        <p:dataList value="#{client.comptes}"
+                                    var="compte"
+                                    itemType="disc">
+                            <h:link outcome="showCompte.xhtml?id=#{compte.id}" value="#{compte.id} #{compte.nom} ( #{compte.solde} )"/>
+                        </p:dataList>
+                        
+                        
                     </p:column>
                 </p:dataTable>
             </h:form>
