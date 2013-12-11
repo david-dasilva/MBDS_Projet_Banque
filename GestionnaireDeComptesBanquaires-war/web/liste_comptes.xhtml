@@ -10,18 +10,26 @@
         <ui:insert name="metadata" />
     </h:head>
     <h:body>
-        
+
         <f:view>
             <h:form>
                 <h1><h:outputText value="List"/></h1>
-                <p:dataTable value="#{comptesMBean.allComptes}" var="item">
+                <p:dataTable value="#{comptesMBean.modele}" 
+                             var="item"
+                             lazy="true"
+                             rows="5"
+                             paginator="true"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
+                             rowsPerPageTemplate="5,10,15"
+                             rowStyleClass="#{compteBean.colorow(item.solde)}"
+                             emptyMessage="Aucun compte bancaire trouvé." >
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Id"/>
                         </f:facet>
                         <h:link outcome="show.xhtml?id=#{item.id}" value="#{item.id}"/>
                     </p:column>
-                    
+
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Solde"/>
@@ -40,9 +48,9 @@
 
 
 
-        
-        
-        
+
+
+
     </h:body>
 </html>
 

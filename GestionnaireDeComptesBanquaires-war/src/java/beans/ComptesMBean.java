@@ -5,12 +5,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import session.GestionnaireDeComptesBancaires;
 
 
@@ -29,6 +32,7 @@ public class ComptesMBean implements Serializable{
     private double montant;
     private double montantTransfert;
     private CompteBancaire destinationTransfert;
+    private LazyDataModel<CompteBancaire> modele;
     
     // Pages HTML
     private static final String PAGE_DETAIL_COMPTE  = "show";
@@ -39,15 +43,35 @@ public class ComptesMBean implements Serializable{
      * Creates a new instance of ComptesMBean
      */
     public ComptesMBean() {
+        modele = new LazyDataModel<CompteBancaire>(){
+
+                          @Override
+                          public List load(int i, int i1, String string, SortOrder so, Map map) {
+                              List<CompteBancaire> comptes = new ArrayList<CompteBancaire>();
+                              comptes = g.getLazyComptes(i, i1);
+                              return comptes;
+                          }            
+                          
+                           @Override     
+                           public int getRowCount() {       
+                               return g.getNBComptes();      
+                           }
+                      }; 
     }
     
     /**
      * Appel a la méthode getAllComptes du SessionBean
      * @return 
      */
+    @Deprecated
     public List<CompteBancaire> getAllComptes(){
         return g.getAllComptes();
     }
+    
+    public LazyDataModel getModele(){
+        return this.modele;
+    }
+    
     
     /**
      * Appel à la méthode déposer du SessionBean + redirection

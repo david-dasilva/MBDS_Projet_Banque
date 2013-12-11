@@ -106,12 +106,17 @@ public class GestionnaireDeComptesBancaires {
      * @param limit
      * @return liste de comptes bancaires
      */
-    public List<CompteBancaire> getComptes(int start, int limit) { 
-        Query q = em.createNamedQuery("SELECT * FROM CompteBancaire");
+    public List<CompteBancaire> getLazyComptes(int start, int limit) { 
+        Query q = em.createQuery("select c from CompteBancaire c");
         q.setFirstResult(start);
         q.setMaxResults(limit);
-        
+        System.out.println("LazyLoading comptes de "+ start+" a "+limit);
         return q.getResultList();
+    }
+    
+    public int getNBComptes(){
+        Query query = em.createQuery("SELECT COUNT(c) FROM CompteBancaire c");
+        return ((Long) query.getSingleResult()).intValue();
     }
     
     /**
