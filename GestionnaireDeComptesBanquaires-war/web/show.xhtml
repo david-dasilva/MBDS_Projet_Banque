@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <f:metadata>  
+        <f:viewParam name="id" value="#{comptesMBean.id}"  
+                     required="true"/>  
+        <f:viewAction action="#{comptesMBean.loadCompte}"/>  
+    </f:metadata>
+    <h:head>
+        <title>Detail compte <h:outputText value="#{comptesMBean.compte.nom}"></h:outputText></title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+               
+                <p:panel header="Informations du compte">
+                
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Nom:" for="nom" />
+                        <h:inputText id="nom" value="#{comptesMBean.compte.nom}" title="Nom" />
+                        <h:outputLabel value="Solde actuel:" />
+                        <h:outputText value="#{comptesMBean.compte.solde}"></h:outputText>
+                    </h:panelGrid>
+                    <p:commandButton value="Mettre à jour" action="#{comptesMBean.update}"/>
+                    <p:commandButton value="Supprimer le compte" action="#{comptesMBean.delete}"/>
+                </p:panel>
+                
+                
+                <p:panel header="Opérations">
+                    <p:dataTable value="#{comptesMBean.compte.operations}" var="item">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Date"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateOperation}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opération"/>
+                        </f:facet>
+                        <h:outputText value="#{item.description}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Montant"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montant}"/>
+                    </p:column>
+                </p:dataTable>
+                    
+                </p:panel>
+            </h:form>
+            <h:form>
+                <p:panel header="Effectuer une opération">
+                
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Montant:" for="Montant" />
+                        <h:inputText id="Montant" title="montant" value="#{comptesMBean.montant}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Créditer" action="#{comptesMBean.deposer()}"/>
+                    <p:commandButton value="Débiter" action="#{comptesMBean.retirer()}"/>
+                    <h2>Transfert :</h2>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Montant :" for="MontantTransfert" />
+                        <h:inputText id="MontantTransfert" title="montantTransfert" value="#{comptesMBean.montantTransfert}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Vers :" for="DestinationTransfert" />
+                        <p:autoComplete id="DestinationTransfert" value="#{comptesMBean.destinationTransfert}" 
+                                        completeMethod="#{comptesMBean.complete}"
+                                        var="c" itemLabel="#{c.nom}" itemValue="#{c}" 
+                                        forceSelection="true" 
+                                        converter="#{comptesMBean.converter}" 
+                                        widgetVar="destinationTransfert"/>
+                    </h:panelGrid>
+                    <p:commandButton value="Transferer" action="#{comptesMBean.transferer}" />
+                </p:panel>
+                
+                
+                <p:commandButton value="Retour" action="#{comptesMBean.list}"/>
+            </h:form>
+        </f:view>
+        
+        
+
+    </h:body>
+</html>
+

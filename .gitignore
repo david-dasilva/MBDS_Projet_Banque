@@ -1,0 +1,21 @@
+### /home/shepard/.gitignore-boilerplates/Java.gitignore
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+
+### /home/shepard/.gitignore-boilerplates/Global/NetBeans.gitignore
+
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+
