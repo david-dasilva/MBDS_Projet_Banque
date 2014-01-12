@@ -56,7 +56,7 @@ public class GestionnaireDeComptesBancaires {
         for(String nom : liste.keySet()){
             Integer solde = liste.get(nom);
             Client c = new Client(nom, "password");
-            c.addCompte(new CompteBancaire("Compte courant de "+nom, solde));
+            c.addCompte(new CompteBancaire(nom, solde));
             creerClient(c);
         }
         
@@ -99,14 +99,14 @@ public class GestionnaireDeComptesBancaires {
      * @return liste de compte bancaire
      */
     public List<CompteBancaire> findComptes(String search) {
-        Query q = em.createQuery("select c from CompteBancaire c where lower(c.nom) like :search");
+        Query q = em.createQuery("select c from CompteBancaire c where lower(c.nom) like lower(:search)");
         q.setParameter("search", "%" + search + "%");
         
         return q.getResultList();
     }
     
     public List<Client> findClients(String search) {
-        Query q = em.createQuery("select c from Client c where lower(c.nom) like :search");
+        Query q = em.createQuery("select c from Client c where lower(c.nom) like lower(:search)");
         q.setParameter("search", "%" + search + "%");
         
         return q.getResultList();
