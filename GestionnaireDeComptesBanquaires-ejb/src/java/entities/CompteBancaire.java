@@ -29,8 +29,7 @@ public class CompteBancaire implements Serializable {
     private Long id;
     private double solde;
     private String nom;
-    @ManyToOne
-    private Client proprio;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<OperationBancaire> operations = new ArrayList<>();
 
@@ -38,7 +37,6 @@ public class CompteBancaire implements Serializable {
     }
 
     public CompteBancaire(Client proprio, String nom, double solde) {
-        this.proprio = proprio;
         this.solde = solde;
         this.nom = nom;
         this.operations.add(new OperationBancaire("Création du compte", solde));
@@ -76,14 +74,7 @@ public class CompteBancaire implements Serializable {
         this.nom = nom;
     }
     
-    public Client getProprio(){
-        return proprio;
-    }
-    
-    public void setProprio(Client p){
-        this.proprio = p;
-    }
-    
+
     public Collection<OperationBancaire> getOperations(){
         return this.operations;
     }

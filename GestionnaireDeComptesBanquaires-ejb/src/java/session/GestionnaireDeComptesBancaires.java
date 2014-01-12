@@ -30,13 +30,21 @@ public class GestionnaireDeComptesBancaires {
     /**
      * Création d'un compte bancaire
      * @param cb 
+     * @return l'id du compte bancaire crée
      */
-    public void creerCompte(CompteBancaire cb){
+    public long creerCompte(CompteBancaire cb){
         em.persist(cb);
+        return cb.getId();
     }
     
-    public void creerClient(Client c){
+    /**
+     * Création d'un compte client (sans comptes bancaires)
+     * @param c
+     * @return l'id du compte client crée
+     */
+    public long creerClient(Client c){
         em.persist(c);
+        return c.getId();
     }
     
     

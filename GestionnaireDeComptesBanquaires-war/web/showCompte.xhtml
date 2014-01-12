@@ -22,8 +22,6 @@
                     <p:inplace id="nom" editor="true">
                         <h:inputText value="#{comptesMBean.nom}" title="Nom" required="true"/>
                     </p:inplace>
-                    <h:outputLabel value="Propriétaire:" for="proprio" />
-                    <h:link outcome="showClient.xhtml?id=#{comptesMBean.compte.proprio.id}" value="#{comptesMBean.compte.proprio.nom}"/>
                     <h:outputLabel value="Solde actuel:" />
                     <h:outputText value="#{comptesMBean.compte.solde}" style="font-weight: bold; font-size: large;display:block; text-align: right;"></h:outputText>
                 </h:panelGrid>

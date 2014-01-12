@@ -145,10 +145,6 @@ public class ComptesMBean implements Serializable{
         compte = g.update(compte);
     }
     
-    public Client getProprio(){
-        return compte.getProprio();
-    }
-    
     
     
     public String update(){
@@ -210,7 +206,6 @@ public class ComptesMBean implements Serializable{
     
     
     // Autocomplete
-    // TODO : ça ça marche pooooooo
     private Converter converter = new Converter() {
 
         @Override
