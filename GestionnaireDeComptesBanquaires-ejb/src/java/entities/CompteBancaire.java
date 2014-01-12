@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -28,13 +29,16 @@ public class CompteBancaire implements Serializable {
     private Long id;
     private double solde;
     private String nom;
+    @ManyToOne
+    private Client proprio;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<OperationBancaire> operations = new ArrayList<>();
 
     public CompteBancaire() {
     }
 
-    public CompteBancaire(String nom, double solde) {
+    public CompteBancaire(Client proprio, String nom, double solde) {
+        this.proprio = proprio;
         this.solde = solde;
         this.nom = nom;
         this.operations.add(new OperationBancaire("Création du compte", solde));
@@ -72,6 +76,14 @@ public class CompteBancaire implements Serializable {
         this.nom = nom;
     }
     
+    public Client getProprio(){
+        return proprio;
+    }
+    
+    public void setProprio(Client p){
+        this.proprio = p;
+    }
+    
     public Collection<OperationBancaire> getOperations(){
         return this.operations;
     }
@@ -96,17 +108,13 @@ public class CompteBancaire implements Serializable {
     /**
      * Retirer de l'argent
      * @param montant
-     * @return false si le compte n'a pas de solde suffisant
      */
-    public boolean retirer(double montant) {
+    public double retirer(double montant) {
         
-        if (montant < solde) {
-            solde -= montant;
-            this.operations.add(new OperationBancaire("Débit", montant));
-            return true;
-        } else {
-            return false;
-        }
+        solde -= montant;
+        this.operations.add(new OperationBancaire("Débit", montant));
+        return solde;
+
     }
     
     

@@ -1,12 +1,83 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Détails du client <h:outputText value="#{clientsMBean.client.nom}"></h:outputText></title>
+        <f:metadata>  
+            <f:viewParam name="id" value="#{clientsMBean.id}"  
+                         required="true"/>  
+            <f:viewAction action="#{clientsMBean.loadClient}"/>  
+        </f:metadata>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <f:view>
+            
+            <h2>Hello <h:outputText value="#{clientsMBean.client.nom}"></h:outputText></h2>
+            
+            <p:panel header="Informations client (cliquez pour éditer)">
+                <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nom :" for="Nom" />
+                    <p:inplace id="nom" editor="true">
+                        <h:inputText value="#{clientsMBean.nom}" title="Nom" required="true"/>
+                    </p:inplace>
+                    <h:outputLabel value="Mot de passe :" />
+                    <p:inplace id="password" editor="true">
+                        <h:inputSecret value="#{clientsMBean.password}" title="Password" required="true"/>
+                    </p:inplace>
+                    
+                </h:panelGrid>
+                </h:form>
+            </p:panel>
+            
+            
+            
+            <p:panel header="Liste des comptes bancaires">
+                <p:dataTable value="#{clientsMBean.client.comptes}" var="item">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:link outcome="showCompte.xhtml?id=#{item.id}" value="#{item.nom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="solde"/>
+                        </f:facet>
+                        <h:outputText value="#{item.solde}"/>
+                    </p:column>
+                </p:dataTable>
+                
+                <h3>Créer un compte</h3>
+                <h:form>
+                
+                    <h:panelGrid columns="3">
+                        <h:outputLabel value="Nom:" for="Nom" />
+                        <h:inputText id="Nom" title="Nom" value="#{clientsMBean.nomNouveauCompte}"/>
+                        <p:commandButton value="Créer" icon="ui-icon-plusthick" action="#{clientsMBean.creerCompteBancaire()}"/>
+                    </h:panelGrid>
+                    
+            </h:form>
+
+            </p:panel>
+
+
+            <p:button value="Retour à la liste des comptes" icon="ui-icon-arrowreturnthick-1-w" outcome="liste_comptes"/>
+
+            
+        </f:view>
+        
+        
+        
     </h:body>
 </html>
 

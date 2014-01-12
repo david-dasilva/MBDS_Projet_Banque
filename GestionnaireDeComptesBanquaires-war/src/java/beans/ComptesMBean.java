@@ -36,7 +36,7 @@ public class ComptesMBean implements Serializable{
     private LazyDataModel<Client> modele;
     
     // Pages HTML
-    private static final String PAGE_DETAIL_COMPTE  = "show";
+    private static final String PAGE_DETAIL_COMPTE  = "showCompte";
     private static final String PAGE_LISTE_COMPTES  = "liste_comptes";
     
 
@@ -115,9 +115,9 @@ public class ComptesMBean implements Serializable{
     
     
     public String transferer(){
-        System.out.println("TRANSFERT "+montantTransfert+ " vers compte #"+destinationTransfert);
+        System.out.println("TRANSFERT "+montantTransfert+ " vers compte #"+destinationTransfert.getId());
         g.transfert(compte.getId(), destinationTransfert.getId(), montantTransfert);
-        return redirectTo(PAGE_DETAIL_COMPTE, true, null);
+        return redirectTo(PAGE_DETAIL_COMPTE, true, "id="+compte.getId());
     }
     
     /**
@@ -134,6 +134,22 @@ public class ComptesMBean implements Serializable{
     public void loadCompte(){
         this.compte = g.getCompte(idCompte);
     }
+    
+    
+    public String getNom(){
+        return compte.getNom();
+    }
+    
+    public void setNom(String nom){
+        compte.setNom(nom);
+        compte = g.update(compte);
+    }
+    
+    public Client getProprio(){
+        return compte.getProprio();
+    }
+    
+    
     
     public String update(){
         System.out.println("### UPDATE du compte"+idCompte);  

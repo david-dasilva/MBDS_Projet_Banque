@@ -19,11 +19,6 @@ public class ListeDonneesDeTest {
         l = new LinkedHashMap<String, Integer>();
 
         // Here comes!
-        l.put("* Anonymous United! *", 1337000);
-        l.put("Hadopi", 4187);
-        l.put("Wikileaks", 1713);
-        l.put("MPAA", 5825);
-        l.put("Scientology church", 7082);
         l.put("Glenna Holden", 3018);
         l.put("Ainsley Bell", 738);
         l.put("Ava Monroe", 2035);

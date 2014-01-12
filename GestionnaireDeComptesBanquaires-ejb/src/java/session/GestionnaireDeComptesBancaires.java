@@ -53,10 +53,34 @@ public class GestionnaireDeComptesBancaires {
         
         LinkedHashMap<String, Integer> liste = new ListeDonneesDeTest().getListe();
         
+        // quelques comptes pour le fun
+        Client c1 = new Client("* Anonymous United! *", "p@s$w0rd");
+        c1.addCompte(new CompteBancaire(c1,"Anonymous's looting",77777));
+        c1.addCompte(new CompteBancaire(c1,"Anonymous's savings",1337000));
+        creerClient(c1);
+        
+        Client c2 = new Client("Hadopi", "gné?");
+        c2.addCompte(new CompteBancaire(c2,"Hadopi - compte courant",-200000));
+        creerClient(c2);
+        
+        Client c3 = new Client("Wikileaks", "helloFBI");
+        c3.addCompte(new CompteBancaire(c3,"Wikileaks - Nouveau compte pas encore bloqué!",500));
+        creerClient(c3);
+        
+        Client c4 = new Client("MPAA", "money");
+        c4.addCompte(new CompteBancaire(c4,"MPAA - Lobbying funds",5000000));
+        creerClient(c4);
+        
+        
+        Client c5 = new Client("Scientology church", "hacked");
+        c5.addCompte(new CompteBancaire(c5,"Scientology - Thx 4 the $$$ - Anonymous",-5000000));
+        creerClient(c5);
+  
+        // reste des comptes randoms
         for(String nom : liste.keySet()){
             Integer solde = liste.get(nom);
             Client c = new Client(nom, "password");
-            c.addCompte(new CompteBancaire(nom, solde));
+            c.addCompte(new CompteBancaire(c,nom+" - compte courant", solde));
             creerClient(c);
         }
         
@@ -92,7 +116,7 @@ public class GestionnaireDeComptesBancaires {
         Query q = em.createQuery("select c from Client c order by c.id");
         return q.getResultList();
     }
-    
+   
     /**
      * Recherche de comptes bancaires sur le nom
      * @param search
@@ -162,6 +186,10 @@ public class GestionnaireDeComptesBancaires {
      * @return le compte bancaire modifié, connecté
      */
     public CompteBancaire update(CompteBancaire c) {
+        return em.merge(c);
+    }
+    
+    public Client update(Client c){
         return em.merge(c);
     }
     

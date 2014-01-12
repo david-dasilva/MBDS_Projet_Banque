@@ -13,7 +13,7 @@
 
         <f:view>
             <h:form>
-                <h1><h:outputText value="List"/></h1>
+                <h1><h:outputText value="Liste des comptes bancaires de tous les clients"/></h1>
                 <p:dataTable value="#{comptesMBean.modele}" 
                              var="client"
                              lazy="true"
@@ -34,7 +34,7 @@
                         <f:facet name="header">
                             <h:outputText value="Nom"/>
                         </f:facet>
-                        <h:outputText value="#{client.nom}"/>
+                        <h:link outcome="showClient.xhtml?id=#{client.id}" value="#{client.nom}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
@@ -45,7 +45,7 @@
                         <p:dataList value="#{client.comptes}"
                                     var="compte"
                                     itemType="disc">
-                            <h:link outcome="showCompte.xhtml?id=#{compte.id}" value="#{compte.id} #{compte.nom} ( #{compte.solde} )"/>
+                            <h:link outcome="showCompte.xhtml?id=#{compte.id}" value="#{compte.nom} ( solde : #{compte.solde} )"/>
                         </p:dataList>
                         
                         
