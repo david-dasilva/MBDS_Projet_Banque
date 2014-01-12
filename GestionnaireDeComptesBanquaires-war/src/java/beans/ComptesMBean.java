@@ -155,7 +155,9 @@ public class ComptesMBean implements Serializable{
     }
     
     public List<CompteBancaire> complete(String query) {
+        System.out.println("Recherche pour : "+query);
         List<CompteBancaire> l = g.findComptes(query);
+        System.out.println("trouvé : "+l.size());
         // Je retire l'utilisateur courant de la liste
         l.remove(compte);
         return l;
