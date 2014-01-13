@@ -61,6 +61,43 @@ public class CompteBancaireFacadeREST {
         return g.update(cb);
     }
 
+    @GET
+    @Path("deposer/{id}/{montant}")
+    @Produces({"application/xml", "application/json"})
+    public CompteBancaire deposer(@PathParam("id") Long id, @PathParam("montant") Long montant){
+        CompteBancaire cb = g.getCompte(id);
+        if(cb == null){
+            return null;
+        }
+        cb.deposer(montant);
+        return g.update(cb);
+    }
+    
+    
+    @GET
+    @Path("retirer/{id}/{montant}")
+    @Produces({"application/xml", "application/json"})
+    public CompteBancaire retirer(@PathParam("id") Long id, @PathParam("montant") Long montant){
+        CompteBancaire cb = g.getCompte(id);
+        if(cb == null){
+            return null;
+        }
+        cb.retirer(montant);
+        return g.update(cb);
+    }
+    
+    
+    @GET
+    @Path("transferer/{id_from}/{id_to}/{montant}")
+    public void transferer(@PathParam("id_from") Long id_from, 
+                            @PathParam("id_to") Long id_to, 
+                            @PathParam("montant") Long montant){
+        g.transfert(id_from, id_to, montant);;
+    }
+    
+    
+    
+    
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
