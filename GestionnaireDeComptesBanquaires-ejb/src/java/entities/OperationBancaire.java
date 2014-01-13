@@ -24,8 +24,6 @@ public class OperationBancaire implements Serializable {
     private double montant;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOperation;
-    @ManyToOne
-    private CompteBancaire compteBancaire;
     
     
     public OperationBancaire(){
@@ -68,14 +66,6 @@ public class OperationBancaire implements Serializable {
 
     public void setDateOperation(Date dateOperation) {
         this.dateOperation = dateOperation;
-    }
-
-    public CompteBancaire getCompteBancaire() {
-        return compteBancaire;
-    }
-
-    public void setCompteBancaire(CompteBancaire compteBancaire) {
-        this.compteBancaire = compteBancaire;
     }
 
     
