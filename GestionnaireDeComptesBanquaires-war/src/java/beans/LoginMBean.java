@@ -76,24 +76,19 @@ public class LoginMBean implements Serializable {
     
     
     public String connexion(){
-        Client c = g.getClientByLogin(login);
-        System.out.println("Connexion pour "+login);
+        System.out.println("Connexion pour "+login);      
+        Client c = g.login(login, password);
+
         if(c != null){
-            System.out.println("on a un client");
-            if(c.getPassword().equals(password)){
-                System.out.println("password ok");
-                setConnected(true);
-                setClient(c);
-                setIdClient(c.getId());
-                //return "showClient?id="+idClient+"&faces-redirect=true";
-                return "showClient?faces-redirect=true";
-            } else {
-                System.out.println("password ko");
-                setConnected(false);
-                return "index";
-            }
+            System.out.println("password ok");
+            setConnected(true);
+            setClient(c);
+            setIdClient(c.getId());
+            //return "showClient?id="+idClient+"&faces-redirect=true";
+            return "showClient?faces-redirect=true";
+            
         } else {
-            System.out.println("on a pas de client");
+            System.out.println("logins incorrects");
             setConnected(false);
             return "index";
         }

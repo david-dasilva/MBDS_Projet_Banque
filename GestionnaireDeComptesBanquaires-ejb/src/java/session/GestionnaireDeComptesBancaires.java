@@ -161,7 +161,7 @@ public class GestionnaireDeComptesBancaires {
         return em.find(Client.class, id);
     }
     
-    public Client getClientByLogin(String login){
+    private Client getClientByLogin(String login){
         System.out.println("Recherche du client via le login :"+login);
         Query q = em.createQuery("select c from Client c where c.login=:login");
         q.setParameter("login", login);
@@ -171,6 +171,18 @@ public class GestionnaireDeComptesBancaires {
         else
             System.out.println("rien trouvé");
         return c;
+    }
+    
+    public Client login(String login, String password){
+        Client c = getClientByLogin(login);
+        if(c!=null){
+          if(c.getPassword().equals(password)){
+              return c;
+          }
+        } else{
+            return null;
+        }
+        return null;
     }
     
     /**

@@ -60,6 +60,22 @@ public class ClientFacadeREST {
         g.delete(g.getClient(id));
     }
 
+    
+    @POST
+    @Path("login")
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
+    @Produces({"application/xml", "application/json"})
+    public Client login(@FormParam(FIELD_LOGIN) String login, @FormParam(FIELD_PASSWORD) String password){
+        
+        Client c = g.login(login, password);
+        if(c!=null){
+          return c;
+        } else{
+            return null;
+        }
+    }
+    
+    
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
