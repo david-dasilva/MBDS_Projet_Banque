@@ -44,6 +44,9 @@ public class ClientFacadeREST {
     @Produces({"application/xml", "application/json"})
     public Client edit(@FormParam(FIELD_ID) long id,@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_PASSWORD) String password) {
         Client client = g.getClient(id);
+        if(client == null){
+            return null;
+        }
         client.setNom(nom);
         client.setPassword(password);
         return g.update(client);
