@@ -62,34 +62,36 @@ public class GestionnaireDeComptesBancaires {
         LinkedHashMap<String, Integer> liste = new ListeDonneesDeTest().getListe();
         
         // quelques comptes pour le fun
-        Client c1 = new Client("* Anonymous United! *", "p@s$w0rd");
+        Client c1 = new Client("* Anonymous United! *", "anonymous", "p@s$w0rd");
         c1.addCompte(new CompteBancaire("Anonymous's looting",77777));
         c1.addCompte(new CompteBancaire("Anonymous's savings",1337000));
         creerClient(c1);
         
-        Client c2 = new Client("Hadopi", "gné?");
+        Client c2 = new Client("Hadopi","hadopi", "gné?");
         c2.addCompte(new CompteBancaire("Hadopi - compte courant",-200000));
         creerClient(c2);
         
-        Client c3 = new Client("Wikileaks", "helloFBI");
+        Client c3 = new Client("Wikileaks","wikileaks", "helloFBI");
         c3.addCompte(new CompteBancaire("Wikileaks - Nouveau compte pas encore bloqué!",500));
         creerClient(c3);
         
-        Client c4 = new Client("MPAA", "money");
+        Client c4 = new Client("MPAA","mpaa", "money");
         c4.addCompte(new CompteBancaire("MPAA - Lobbying funds",5000000));
         creerClient(c4);
         
         
-        Client c5 = new Client("Scientology church", "hacked");
+        Client c5 = new Client("Scientology church","scientology", "hacked");
         c5.addCompte(new CompteBancaire("Scientology - Thx 4 the $$$ - Anonymous",-5000000));
         creerClient(c5);
   
         // reste des comptes randoms
+        int i = 0;
         for(String nom : liste.keySet()){
             Integer solde = liste.get(nom);
-            Client c = new Client(nom, "password");
+            Client c = new Client(nom, "toto"+i,"password");
             c.addCompte(new CompteBancaire(nom+" - compte courant", solde));
             creerClient(c);
+            i++;
         }
         
 

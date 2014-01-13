@@ -26,6 +26,7 @@ public class ClientFacadeREST {
     private GestionnaireDeComptesBancaires g;
     
     public static final String FIELD_ID = "idClient";
+    public static final String FIELD_LOGIN = "login";
     public static final String FIELD_NOM = "nom";
     public static final String FIELD_PASSWORD = "password";
     
@@ -33,21 +34,22 @@ public class ClientFacadeREST {
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public long create(@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_PASSWORD) String password) {
+    public long create(@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_LOGIN) String login, @FormParam(FIELD_PASSWORD) String password) {
          
-        Client client = new Client(nom, password);
+        Client client = new Client(nom, login,password);
         return g.creerClient(client);
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public Client edit(@FormParam(FIELD_ID) long id,@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_PASSWORD) String password) {
+    public Client edit(@FormParam(FIELD_ID) long id,@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_LOGIN) String login, @FormParam(FIELD_PASSWORD) String password) {
         Client client = g.getClient(id);
         if(client == null){
             return null;
         }
         client.setNom(nom);
+        client.setLogin(login);
         client.setPassword(password);
         return g.update(client);
     }

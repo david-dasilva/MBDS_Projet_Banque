@@ -26,6 +26,7 @@ public class Client implements Serializable {
     private Long id;
     
     private String nom;
+    private String login;
     private String password;
     
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -34,8 +35,9 @@ public class Client implements Serializable {
 
     public Client() {}
     
-    public Client(String nom, String password){
+    public Client(String nom, String login, String password){
         this.nom = nom;
+        this.login = login;
         this.setPassword(password);
         this.comptes = new ArrayList();
     }
@@ -57,6 +59,14 @@ public class Client implements Serializable {
         this.nom = nom;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    
     public String getPassword() {
         return password;
     }

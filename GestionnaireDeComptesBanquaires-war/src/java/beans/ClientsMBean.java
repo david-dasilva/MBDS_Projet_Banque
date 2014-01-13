@@ -92,7 +92,7 @@ public class ClientsMBean implements Serializable{
     }
     
     public String creerCompteBancaire(){
-        client.addCompte(new CompteBancaire(client, nomNouveauCompte,0.0));
+        client.addCompte(new CompteBancaire(nomNouveauCompte,0.0));
         client = g.update(client);
         return redirectTo(PAGE_DETAIL_CLIENT, true, "id="+client.getId());
     }
