@@ -36,7 +36,7 @@ public class CompteBancaire implements Serializable {
     public CompteBancaire() {
     }
 
-    public CompteBancaire(Client proprio, String nom, double solde) {
+    public CompteBancaire(String nom, double solde) {
         this.solde = solde;
         this.nom = nom;
         this.operations.add(new OperationBancaire("Création du compte", solde));
