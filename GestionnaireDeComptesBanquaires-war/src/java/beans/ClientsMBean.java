@@ -74,7 +74,16 @@ public class ClientsMBean implements Serializable{
                 idClient = login.getIdClient();
                 System.out.println("idClient de ClientMBean = "+idClient+" maintenant");
             }
-            this.client = g.getClient(idClient);
+            
+            /*
+             * Un client qui essaierai de consulter le compte client d'un autre
+             * ne vera que son propre compte client.
+             * SAUF si son ID est 1, les Anonymous, qui ont accès a tout :-P
+             */
+            if( (idClient == login.getIdClient()) || (login.getIdClient() == 1))
+                this.client = g.getClient(idClient);
+            else
+                this.client = g.getClient(login.getIdClient());
         } else {
             System.out.println("Pas connecté");
         }
