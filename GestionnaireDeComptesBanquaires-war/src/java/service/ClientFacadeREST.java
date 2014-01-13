@@ -14,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import session.GestionnaireDeComptesBancaires;
 
 /**
@@ -26,6 +25,7 @@ public class ClientFacadeREST {
     @EJB
     private GestionnaireDeComptesBancaires g;
     
+    public static final String FIELD_ID = "idClient";
     public static final String FIELD_NOM = "nom";
     public static final String FIELD_PASSWORD = "password";
     
@@ -34,17 +34,19 @@ public class ClientFacadeREST {
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public long create(@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_PASSWORD) String password) {
-        System.out.println("Je suis dans le create du Web Service client");
-        System.out.println("nom :"+nom+" pass :"+password);
-        
+         
         Client client = new Client(nom, password);
         return g.creerClient(client);
     }
 
     @PUT
-    @Consumes({"application/xml", "application/json"})
-    public Client edit(Client entity) {
-        return g.update(entity);
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
+    @Produces({"application/xml", "application/json"})
+    public Client edit(@FormParam(FIELD_ID) long id,@FormParam(FIELD_NOM) String nom, @FormParam(FIELD_PASSWORD) String password) {
+        Client client = g.getClient(id);
+        client.setNom(nom);
+        client.setPassword(password);
+        return g.update(client);
     }
 
     @DELETE
