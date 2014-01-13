@@ -1,11 +1,36 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Gestionnaire de comptes bancaires</title>
+        <ui:insert name="metadata" />
     </h:head>
     <h:body>
+        <h:outputText rendered="#{!loginMBean.connected}" value="vous n'êtes pas connecté" />
+        
+        <h:form id="loginForm" rendered="#{!loginMBean.connected}"> 
+         Login: <h:inputText id="loginForm" value="#{loginMBean.login}" /> 
+         Password: <h:inputText id="passwordForm" value="#{loginMBean.password}" /> 
+         
+         <p:commandButton value="Login" icon="ui-icon-key" action="#{loginMBean.connexion}" /> 
+        </h:form>
+        
+        <h:panelGroup rendered="#{loginMBean.connected}" id="divConnexion" >
+            
+            <h:form>
+                <p:commandButton value="Deconnexion" icon="ui-icon-power" style="float: right" action="#{loginMBean.deconnexion}" />
+            </h:form>    
+            <p>Vous êtes connecté en tant que <strong>#{loginMBean.client.nom}</strong></p>
+            
+        </h:panelGroup>
+        <h:panelGroup rendered="#{loginMBean.connected}">
+            <h:link outcome="showClient.xhtml?id=#{loginMBean.idClient}" value="Votre compte"/><br />
+        TODO : afficher quelque chose ici
+        </h:panelGroup>
         
     </h:body>
 </html>

@@ -9,6 +9,9 @@ import entities.CompteBancaire;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.ejb.EJB;
+import javax.faces.application.Application;
+import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import session.GestionnaireDeComptesBancaires;
@@ -24,6 +27,7 @@ public class ClientsMBean implements Serializable{
     
     @EJB
     private GestionnaireDeComptesBancaires g;
+    private LoginMBean login;
     private Client client;
     private long idClient;
     private Collection<CompteBancaire> comptes;
@@ -39,7 +43,7 @@ public class ClientsMBean implements Serializable{
      * Creates a new instance of ClientsMBean
      */
     public ClientsMBean() {
-        
+        //login = new LoginMBean();
     }
     
     public void setId(long id){
@@ -54,7 +58,26 @@ public class ClientsMBean implements Serializable{
      * Cette méthode charge le client a partir de l'id déjà transmis.
      */
     public void loadClient(){
-        this.client = g.getClient(idClient);
+        System.out.println("loadClient");
+        
+        // Morceau de code qui permet de récuperer l'instance de LoginMBean.
+        // Ne pas poser de question, ne pas modifier, magie voudou inside
+        Application app = FacesContext.getCurrentInstance().getApplication();
+        ValueBinding vb = app.createValueBinding("#{loginMBean}");
+        login = (LoginMBean) vb.getValue(FacesContext.getCurrentInstance());
+        
+        
+        
+        if(login.isConnected()){
+            System.out.println("Client #"+login.getIdClient()+" connecté. idClient de ClientMBean="+idClient);
+            if(idClient == 0){
+                idClient = login.getIdClient();
+                System.out.println("idClient de ClientMBean = "+idClient+" maintenant");
+            }
+            this.client = g.getClient(idClient);
+        } else {
+            System.out.println("Pas connecté");
+        }
     }
     
     public Client getClient(){

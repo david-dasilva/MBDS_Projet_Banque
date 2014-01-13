@@ -9,8 +9,15 @@
         <title>Tous les comptes</title>
         <ui:insert name="metadata" />
     </h:head>
-    <h:body>
-
+    <h:body rendered="#{loginMBean.connected}">
+        <h:panelGroup rendered="#{loginMBean.connected}" id="divConnexion" >
+            
+            <h:form>
+                <p:commandButton value="Deconnexion" icon="ui-icon-power" style="float: right" action="#{loginMBean.deconnexion}" />
+            </h:form>    
+            <p>Vous êtes connecté en tant que <strong>#{loginMBean.client.nom}</strong></p>
+            
+        </h:panelGroup>
         <f:view>
             <h:form>
                 <h1><h:outputText value="Liste des comptes bancaires de tous les clients"/></h1>
@@ -59,6 +66,9 @@
 
 
 
+    </h:body>
+    <h:body rendered="#{!loginMBean.connected}">
+        <h2>Vous devez être connecté :  <a href="index.xhtml?faces-redirect=true">Connexion</a></h2>
     </h:body>
 </html>
 

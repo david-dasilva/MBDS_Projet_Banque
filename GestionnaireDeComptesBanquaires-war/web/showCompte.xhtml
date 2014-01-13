@@ -13,7 +13,15 @@
     <h:head>
         <title>Detail compte <h:outputText value="#{comptesMBean.compte.nom}"></h:outputText></title>
     </h:head>
-    <h:body>
+    <h:body rendered="#{loginMBean.connected}">
+        <h:panelGroup rendered="#{loginMBean.connected}" id="divConnexion" >
+            
+            <h:form>
+                <p:commandButton value="Deconnexion" icon="ui-icon-power" style="float: right" action="#{loginMBean.deconnexion}" />
+            </h:form>    
+            <p>Vous êtes connecté en tant que <strong>#{loginMBean.client.nom}</strong></p>
+            
+        </h:panelGroup>
         <f:view>
             <p:panel header="Informations du compte">
                 <h:form>
@@ -94,6 +102,9 @@
         
         
 
+    </h:body>
+    <h:body rendered="#{!loginMBean.connected}">
+        <h2>Vous devez être connecté :  <a href="index.xhtml?faces-redirect=true">Connexion</a></h2>
     </h:body>
 </html>
 

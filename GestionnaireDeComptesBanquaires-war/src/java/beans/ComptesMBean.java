@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.ValueBinding;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.model.LazyDataModel;
@@ -26,6 +28,7 @@ import session.GestionnaireDeComptesBancaires;
 public class ComptesMBean implements Serializable{
     @EJB
     private GestionnaireDeComptesBancaires g;
+    private LoginMBean login;
     //private Collection<CompteBancaire> tousLesComptes;
     private CompteBancaire compte;
     private long idCompte;
@@ -44,7 +47,7 @@ public class ComptesMBean implements Serializable{
      * Creates a new instance of ComptesMBean
      */
     public ComptesMBean() {
-        
+
         modele = new LazyDataModel<Client>(){
 
                           @Override
@@ -127,12 +130,24 @@ public class ComptesMBean implements Serializable{
         System.out.println("###LIST###");  
         return redirectTo(PAGE_LISTE_COMPTES, true, null);
     }
-    
+     
     /**
      * Cette méthode charge un object compte a partir de l'id déjà récupéré.
      */
     public void loadCompte(){
-        this.compte = g.getCompte(idCompte);
+        System.out.println("loadCompte");
+        
+        // Morceau de code qui permet de récuperer l'instance de LoginMBean.
+        // Ne pas poser de question, ne pas modifier, magie voudou inside
+        Application app = FacesContext.getCurrentInstance().getApplication();
+        ValueBinding vb = app.createValueBinding("#{loginMBean}");
+        login = (LoginMBean) vb.getValue(FacesContext.getCurrentInstance());
+        
+        if (login.isConnected()){
+            System.out.println("Compte. connected. idCompte = "+idCompte);
+            if(idCompte!=0)
+                this.compte = g.getCompte(idCompte);
+        }
     }
     
     

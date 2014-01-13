@@ -161,6 +161,18 @@ public class GestionnaireDeComptesBancaires {
         return em.find(Client.class, id);
     }
     
+    public Client getClientByLogin(String login){
+        System.out.println("Recherche du client via le login :"+login);
+        Query q = em.createQuery("select c from Client c where c.login=:login");
+        q.setParameter("login", login);
+        Client c = (Client)q.getSingleResult();
+        if (c != null)
+            System.out.println("trouvé :"+c.toString());
+        else
+            System.out.println("rien trouvé");
+        return c;
+    }
+    
     /**
      * Retourne une partie des comptes bancaires pour la pagination
      * @param start
