@@ -145,8 +145,11 @@ public class ComptesMBean implements Serializable{
         
         if (login.isConnected()){
             System.out.println("Compte. connected. idCompte = "+idCompte);
-            if(idCompte!=0)
-                this.compte = g.getCompte(idCompte);
+            if(idCompte!=0){
+                
+                if(g.peutVoirCompte(login.getIdClient(), idCompte))
+                    this.compte = g.getCompte(idCompte);
+            }
         }
     }
     

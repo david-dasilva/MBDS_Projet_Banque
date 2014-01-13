@@ -185,6 +185,21 @@ public class GestionnaireDeComptesBancaires {
         return null;
     }
     
+    
+    public boolean peutVoirCompte(long idClient, long idCompte){
+        
+        // Acces total aux anonymous
+        if(idClient == 1) return true;
+        
+        Client client = getClient(idClient);
+        List<CompteBancaire> listeComptes = client.getComptes();
+        CompteBancaire comptBancaire = getCompte(idCompte);
+        if(listeComptes.contains(comptBancaire))
+            return true;
+        else
+            return false;
+    }
+    
     /**
      * Retourne une partie des comptes bancaires pour la pagination
      * @param start
