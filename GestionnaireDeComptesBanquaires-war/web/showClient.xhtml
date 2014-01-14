@@ -78,7 +78,7 @@
             </p:panel>
 
 
-            <p:button value="Retour à la liste des comptes" icon="ui-icon-arrowreturnthick-1-w" outcome="liste_comptes"/>
+            <p:button rendered="#{clientsMBean.id == 1}" value="Anonymous only : Liste de tous les clients!" icon="ui-icon-heart" outcome="liste_comptes" style="color:red"/>
 
             
         </f:view>

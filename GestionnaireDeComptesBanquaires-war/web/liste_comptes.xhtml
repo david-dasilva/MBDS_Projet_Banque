@@ -15,7 +15,7 @@
             <h:form>
                 <p:commandButton value="Deconnexion" icon="ui-icon-power" style="float: right" action="#{loginMBean.deconnexion}" />
             </h:form>    
-            <p>Vous êtes connecté en tant que <strong>#{loginMBean.client.nom}</strong></p>
+            <p>Vous êtes connecté en tant que <strong><h:link outcome="showClient?id=#{loginMBean.idClient}" value="#{loginMBean.client.nom}" /></strong></p>
             
         </h:panelGroup>
         <f:view>

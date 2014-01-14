@@ -10,7 +10,11 @@
         <ui:insert name="metadata" />
     </h:head>
     <h:body>
-        <h:outputText rendered="#{!loginMBean.connected}" value="vous n'êtes pas connecté" />
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+        <p:growl id="msg" showDetail="true" life="3000" />
+        <h:panelGroup rendered="#{!loginMBean.connected}">
+            Vous n'êtes pas connecté, essayez ça : <strong>anonymous</strong> / <em>p@s$w0rd</em><br />
+        </h:panelGroup>
         
         <h:form id="loginForm" rendered="#{!loginMBean.connected}"> 
          Login: <h:inputText id="loginForm" value="#{loginMBean.login}" /> 

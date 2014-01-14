@@ -4,7 +4,10 @@ import entities.Client;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import session.GestionnaireDeComptesBancaires;
 
 /**
@@ -84,19 +87,20 @@ public class LoginMBean implements Serializable {
             setConnected(true);
             setClient(c);
             setIdClient(c.getId());
-            //return "showClient?id="+idClient+"&faces-redirect=true";
-            return "showClient?faces-redirect=true";
+            return "showClient?id="+idClient+"&faces-redirect=true";
             
         } else {
             System.out.println("logins incorrects");
             setConnected(false);
-            return "index";
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Logins incorrects!","Méchant pirate!"));
+            return "index?wronglogin=true&faces-redirect=true";
         }
     }
     
     public String deconnexion(){
         connected = false;
-        return "index?faces-redirect=true";
+        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes déconnecté","A bientôt"));
+        return "index?logoff=true&faces-redirect=true";
     }
 
 
