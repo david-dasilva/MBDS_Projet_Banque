@@ -29,7 +29,8 @@ public class ClientFacadeREST {
     public static final String FIELD_LOGIN = "login";
     public static final String FIELD_NOM = "nom";
     public static final String FIELD_PASSWORD = "password";
-    
+    public static final String FIELD_BENEF_ID = "idBeneficiaire";
+    public static final String FIELD_BENEF_LABEL = "labelBeneficiaire";
 
     @POST
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
@@ -107,5 +108,43 @@ public class ClientFacadeREST {
         return g.getNBClients();
     }
 
+    
+    @POST
+    @Path("benef")
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
+    @Produces({"application/xml", "application/json"})
+    public Client addBeneficiaire(@FormParam(FIELD_ID) long id, @FormParam(FIELD_BENEF_ID) long idCompte, @FormParam(FIELD_BENEF_LABEL) String label){
+        Client c = g.getClient(id);
+        if (c!=null){
+            c.addBeneficiaire(idCompte, label);
+            return c;
+        }
+        return null;
+    }
+    
+    @PUT
+    @Path("benef")
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
+    @Produces({"application/xml", "application/json"})
+    public String editBeneficiaire(@FormParam(FIELD_ID) long id, @FormParam(FIELD_BENEF_ID) long idCompte, @FormParam(FIELD_BENEF_LABEL) String label){
+        Client c = g.getClient(id);
+        if (c!=null){
+            return c.editBeneficiaire(idCompte, label);
+        }
+        return null;
+    }
+    
+    @DELETE
+    @Path("benef/{id}/{idCompte}")
+    @Produces({"application/xml", "application/json"})
+    public String removeBeneficiaire(@PathParam("id") long id, @PathParam("idCompte")long idCompte){
+        Client c = g.getClient(id);
+        if (c!=null){
+            return c.removeBeneficiaire(idCompte);
+        }
+        return null;
+    }
+    
+    
 
 }
