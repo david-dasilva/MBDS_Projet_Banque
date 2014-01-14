@@ -3,6 +3,8 @@ package service;
 
 import entities.Client;
 import entities.CompteBancaire;
+import entities.OperationBancaire;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -111,6 +113,14 @@ public class CompteBancaireFacadeREST {
     public CompteBancaire find(@PathParam("id") Long id) {
         return g.getCompte(id);
     }
+    
+    @GET
+    @Path("operations/{id}")
+    @Produces({"application/xml", "application/json"})
+    public Collection<OperationBancaire> getOperations(@PathParam("id") Long id) {
+        return g.getCompte(id).getOperations();
+    }
+    
 
     @GET
     @Produces({"application/xml", "application/json"})
