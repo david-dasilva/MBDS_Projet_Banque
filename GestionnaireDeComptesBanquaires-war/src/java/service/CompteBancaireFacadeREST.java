@@ -91,11 +91,10 @@ public class CompteBancaireFacadeREST {
     
     @GET
     @Path("transferer/{id_from}/{id_to}/{montant}")
-    public void transferer(@PathParam("id_from") Long id_from, 
+    public double transferer(@PathParam("id_from") Long id_from, 
                             @PathParam("id_to") Long id_to, 
                             @PathParam("montant") Long montant){
-        g.transfert(id_from, id_to, montant);
-        //TODO : renvoyer quelque chose
+        return g.transfert(id_from, id_to, montant);
     }
     
     
