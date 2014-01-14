@@ -6,6 +6,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,10 +30,19 @@ public class Client implements Serializable {
     private String login;
     private String password;
     
+    /**
+     * Liste de comptes benéficiaires.
+     * Ici, j'ai choisi de ne garder qu'un id des CompteBancaire afin de ne pas rajouter une relation ManyToMany.
+     * Le compte est retrouvé via un simple g.getCompte(id).
+     * Le String est le label du bénéficiaire, choisi par le client. Ex : "Propriétaire", "Assurance auto" etc
+     * 
+     */
+    private HashMap<Long,String> beneficiaires;
+    
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<CompteBancaire> comptes;
     
-
+    
     public Client() {}
     
     public Client(String nom, String login, String password){
@@ -40,6 +50,7 @@ public class Client implements Serializable {
         this.login = login;
         this.setPassword(password);
         this.comptes = new ArrayList();
+        this.beneficiaires = new HashMap<>();
     }
     
     
@@ -91,9 +102,37 @@ public class Client implements Serializable {
     public void removeCompte(CompteBancaire c){
         this.comptes.remove(c);
     }
+
+    public HashMap<Long, String> getBeneficiaires() {
+        return beneficiaires;
+    }
+
+    public void setBeneficiaires(HashMap<Long, String> beneficiaires) {
+        this.beneficiaires = beneficiaires;
+    }
     
+    public void addBeneficiaire(Long idCompte, String label){
+        this.beneficiaires.put(idCompte, label);
+    }
     
+    /**
+     * Supprime le beneficiaire.
+     * @param idCompte
+     * @return le label du beneficiaire supprimé si trouvé, null sinon.
+     */
+    public String removeBeneficiaire(Long idCompte){
+        return this.beneficiaires.remove(idCompte);
+    }
     
+    /**
+     * Modifie le nom d'un bénéficiaire.
+     * @param idCompte
+     * @param nouveaulabel
+     * @return ancien label si Ok, null sinon.
+     */
+    public String editBeneficiaire(Long idCompte, String nouveaulabel){
+        return this.beneficiaires.put(idCompte, nouveaulabel);
+    }
     
     @Override
     public int hashCode() {
