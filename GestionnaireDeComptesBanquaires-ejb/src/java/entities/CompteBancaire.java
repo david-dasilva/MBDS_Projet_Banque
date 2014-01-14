@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -31,7 +30,7 @@ public class CompteBancaire implements Serializable {
     private String nom;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<OperationBancaire> operations = new ArrayList<>();
+    private transient Collection<OperationBancaire> operations = new ArrayList<>();
 
     public CompteBancaire() {
     }
