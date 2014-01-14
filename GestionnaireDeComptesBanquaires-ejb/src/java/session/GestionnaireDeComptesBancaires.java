@@ -165,7 +165,12 @@ public class GestionnaireDeComptesBancaires {
         System.out.println("Recherche du client via le login :"+login);
         Query q = em.createQuery("select c from Client c where c.login=:login");
         q.setParameter("login", login);
-        Client c = (Client)q.getSingleResult();
+        Client c = null;
+        try{
+            c = (Client)q.getSingleResult();
+        }catch (Exception e){
+            
+        }
         if (c != null)
             System.out.println("trouvé :"+c.toString());
         else
@@ -177,9 +182,11 @@ public class GestionnaireDeComptesBancaires {
         Client c = getClientByLogin(login);
         if(c!=null){
           if(c.getPassword().equals(password)){
+              System.out.println("password ["+c.getPassword()+"] correct");
               return c;
           }
         } else{
+            System.out.println("password incorect : "+c.getPassword()+"!="+password);
             return null;
         }
         return null;
