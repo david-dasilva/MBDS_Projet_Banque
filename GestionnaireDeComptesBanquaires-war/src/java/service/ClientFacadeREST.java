@@ -66,17 +66,17 @@ public class ClientFacadeREST {
     @Path("login")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public Client login(@FormParam(FIELD_LOGIN) String login, @FormParam(FIELD_PASSWORD) String password){
+    public long login(@FormParam(FIELD_LOGIN) String login, @FormParam(FIELD_PASSWORD) String password){
         System.out.println("WEBSERVICE : Login "+login+":"+password);
         if(login ==null || password ==null)
-            return null;
+            return 0;
         Client c = g.login(login, password);
         if(c!=null){
-            System.out.println("je renvoie l'objet client "+c.toString());
-          return c;
+            System.out.println("Identifiants ok pour client "+c.toString());
+          return c.getId();
         } else{
-            System.out.println("Je ne renvoie rien");
-            return null;
+            System.out.println("Identifiants incorrects");
+            return 0;
         }
     }
     
