@@ -7,6 +7,7 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ public class CompteBancaire implements Serializable {
     private String nom;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private transient Collection<OperationBancaire> operations = new ArrayList<>();
+    private Collection<OperationBancaire> operations = new ArrayList<>();
 
     public CompteBancaire() {
     }
@@ -73,8 +74,12 @@ public class CompteBancaire implements Serializable {
         this.nom = nom;
     }
     
-
     public Collection<OperationBancaire> getOperations(){
+        return Collections.EMPTY_LIST;
+    }
+    
+    
+    public Collection<OperationBancaire> operationsBancaires(){
         return this.operations;
     }
     

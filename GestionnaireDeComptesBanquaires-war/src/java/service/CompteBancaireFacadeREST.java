@@ -117,7 +117,7 @@ public class CompteBancaireFacadeREST {
     @Path("operations/{id}")
     @Produces({"application/xml", "application/json"})
     public Collection<OperationBancaire> getOperations(@PathParam("id") Long id) {
-        return g.getCompte(id).getOperations();
+        return g.getCompte(id).operationsBancaires();
     }
     
 
