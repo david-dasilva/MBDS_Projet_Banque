@@ -321,3 +321,299 @@ Retour : Le label du bénéficiaire supprimé, rien sinon (en text/plain)
 ```JSON
 Donations to the Anonymous
 ```
+
+
+Création d'un compte bancaire
+------
+
+URL : **/api/compte**
+
+Type : **POST**
+
+Parametres : **application/x-www-form-urlencoded**
+* **idClient** - L'id du Client a qui on créer le compte
+* **nom** - le nom du CompteBancaire
+* **solde** - le solde initial du compte
+
+Retour : l'id du CompteBancaire crée en text/plain
+```JSON
+2001
+```
+
+
+Modification d'un compte bancaire
+------
+
+URL : **/api/compte**
+
+Type : **PUT**
+
+Parametres : **application/x-www-form-urlencoded**
+* **idCompte** - L'id du CompteBancaire a modifier
+* **nom** - le nom du CompteBancaire
+* **solde** - le solde du compte
+
+Retour : L'objet CompteBancaire modifié en JSON
+```JSON
+{
+    "id": 2,
+    "solde": 77777.0,
+    "nom": "Anonymous's looting",
+    "operations": []
+}
+```
+
+
+Suppression d'un compte bancaire
+------
+
+URL : **/api/compte/{id}**
+
+Type : **DELETE**
+
+Parametres : **PathParam**
+* **{id}** - L'id du CompteBancaire a supprimer
+
+Retour : rien
+
+
+Obtenir un compte bancaire
+------
+
+URL : **/api/compte/{id}**
+
+Type : **GET**
+
+Parametres : **PathParam**
+* **{id}** - L'id du CompteBancaire a afficher
+
+
+Retour : L'objet CompteBancaire en JSON
+```JSON
+{
+    "id": 2,
+    "solde": 77777.0,
+    "nom": "Anonymous's looting",
+    "operations": []
+}
+```
+
+
+Obtenir tous les comptes bancaires
+------
+
+URL : **/api/compte/**
+
+Type : **GET**
+
+Parametres : aucun
+
+
+Retour : Une liste d'objets CompteBancaire en JSON
+```JSON
+[{
+    "id": 1,
+    "nom": "* Anonymous United! *",
+    "login": "anonymous",
+    "password": "b5eae6c475333f72ba9ff6884b872b9d",
+    "beneficiaires": {},
+    "comptes": [{
+        "id": 2,
+        "solde": 77827.0,
+        "nom": "Anonymous's looting",
+        "operations": []
+    }, {
+        "id": 3,
+        "solde": 1337000.0,
+        "nom": "Anonymous's savings",
+        "operations": []
+    }]
+}, {
+    "id": 4,
+    "nom": "Hadopi",
+    "login": "hadopi",
+    "password": "ceeccd4e8d7c5f7396536d4beeb6e32d",
+    "beneficiaires": {},
+    "comptes": [{
+        "id": 5,
+        "solde": -200000.0,
+        "nom": "Hadopi - compte courant",
+        "operations": []
+    }]
+}, ...]
+```
+
+
+Obtenir tous les comptes bancaires, avec limite
+------
+
+URL : **/api/compte/{from}/{limit}**
+
+Type : **GET**
+
+Parametres : **PathParam**
+* **{from}** début d'interval (0 par exemple)
+* **{limit}** nombre max de CompteBancaire a afficher
+
+
+Retour : Une liste d'objets CompteBancaire en JSON
+```JSON
+[{
+    "id": 1,
+    "nom": "* Anonymous United! *",
+    "login": "anonymous",
+    "password": "b5eae6c475333f72ba9ff6884b872b9d",
+    "beneficiaires": {},
+    "comptes": [{
+        "id": 2,
+        "solde": 77827.0,
+        "nom": "Anonymous's looting",
+        "operations": []
+    }, {
+        "id": 3,
+        "solde": 1337000.0,
+        "nom": "Anonymous's savings",
+        "operations": []
+    }]
+}, {
+    "id": 4,
+    "nom": "Hadopi",
+    "login": "hadopi",
+    "password": "ceeccd4e8d7c5f7396536d4beeb6e32d",
+    "beneficiaires": {},
+    "comptes": [{
+        "id": 5,
+        "solde": -200000.0,
+        "nom": "Hadopi - compte courant",
+        "operations": []
+    }]
+}]
+```
+
+
+Déposer
+------
+
+URL : **/api/compte/deposer/{id}/{montant}**
+
+Type : **GET**
+
+Parametres : **PathParam**
+* **{id}** - L'id du CompteBancaire a créditer
+* **{montant}** - le montant a créditer
+
+
+Retour : L'objet CompteBancaire en JSON
+```JSON
+{
+    "id": 2,
+    "solde": 77877.0,
+    "nom": "Anonymous's looting",
+    "operations": [{
+        "id": 0,
+        "description": "Crédit",
+        "montant": 100.0,
+        "dateOperation": 1390221331600
+    }]
+}
+```
+
+
+Retirer
+------
+
+URL : **/api/compte/retirer/{id}/{montant}**
+
+Type : **GET**
+
+Parametres : **PathParam**
+* **{id}** - L'id du CompteBancaire a débiter
+* **{montant}** - le montant a débiter
+
+
+Retour : La liste des opérations du CompteBancaire en JSON
+```JSON
+{
+    "id": 2,
+    "solde": 77827.0,
+    "nom": "Anonymous's looting",
+    "operations": [{
+        "id": 0,
+        "description": "Crédit",
+        "montant": 100.0,
+        "dateOperation": 1390221331600
+    }, {
+        "id": 0,
+        "description": "Débit",
+        "montant": 50.0,
+        "dateOperation": 1390221465429
+    }]
+}
+```
+
+
+Transferer
+------
+
+URL : **/api/compte/transferer/{id\_from}/{id\_to}/{montant}**
+
+Type : **GET**
+
+Parametres : **PathParam**
+* **{id\_from}** - L'id du CompteBancaire a débiter
+* **{id\_to}** - L'id du CompteBancaire a créditer (normalement dans la liste des bénéficiaires)
+* **{montant}** - le montant a transferer
+
+
+Retour : Le nouveau solde du compte ayant transferé l'argent en text/plain
+```JSON
+100
+```
+
+
+Obtenir les opérations d'un compte bancaire
+------
+
+URL : **/api/compte/operations/{id}**
+
+Type : **GET**
+
+Parametres : **PathParam**
+* **{id}** - L'id du CompteBancaire
+
+
+Retour : La liste des opérations du CompteBancaire en JSON
+```JSON
+[{
+    "id": 0,
+    "description": "Crédit",
+    "montant": 100.0,
+    "dateOperation": 1390221331600
+}, {
+    "id": 0,
+    "description": "Débit",
+    "montant": 50.0,
+    "dateOperation": 1390221465429
+}, {
+    "id": 0,
+    "description": "Crédit",
+    "montant": 100.0,
+    "dateOperation": 1390221702648
+}]
+```
+
+
+Obtenir le nombre de comptes bancaires
+------
+
+URL : **/api/compte/count**
+
+Type : **GET**
+
+Parametres : aucun
+
+
+Retour : Le nombre de CompteBancaire en text/plain
+```JSON
+1001
+```
