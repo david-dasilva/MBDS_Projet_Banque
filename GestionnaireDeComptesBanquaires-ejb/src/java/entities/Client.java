@@ -5,9 +5,13 @@
 package entities;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -83,8 +87,29 @@ public class Client implements Serializable {
     }
 
     public void setPassword(String password) {
-        //TODO : convertir en SHA1 ou MD5
-        this.password = password;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            this.password = convertToHex(md.digest(password.getBytes()));
+            System.out.println("Convertion de "+password+" en :"+this.password);
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private static String convertToHex(byte[] data) { 
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < data.length; i++) { 
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do { 
+                if ((0 <= halfbyte) && (halfbyte <= 9)) 
+                    buf.append((char) ('0' + halfbyte));
+                else 
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = data[i] & 0x0F;
+            } while(two_halfs++ < 1);
+        } 
+        return buf.toString();
     }
 
     public List<CompteBancaire> getComptes() {

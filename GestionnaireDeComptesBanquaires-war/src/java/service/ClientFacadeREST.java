@@ -70,7 +70,7 @@ public class ClientFacadeREST {
         System.out.println("WEBSERVICE : Login "+login+":"+password);
         if(login ==null || password ==null)
             return 0;
-        Client c = g.login(login, password);
+        Client c = g.loginAlreadyHashed(login, password);
         if(c!=null){
             System.out.println("Identifiants ok pour client "+c.toString());
           return c.getId();

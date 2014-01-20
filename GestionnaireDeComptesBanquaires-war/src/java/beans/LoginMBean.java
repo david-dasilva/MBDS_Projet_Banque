@@ -4,7 +4,12 @@ import entities.Client;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -62,7 +67,7 @@ public class LoginMBean implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        return "";
     }
 
     public void setPassword(String password) {
@@ -103,6 +108,8 @@ public class LoginMBean implements Serializable {
         return "index?logoff=true&faces-redirect=true";
     }
 
+    
+    
 
     
     

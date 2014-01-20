@@ -2,6 +2,8 @@ package session;
 
 import entities.Client;
 import entities.CompteBancaire;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -78,7 +80,6 @@ public class GestionnaireDeComptesBancaires {
         Client c4 = new Client("MPAA","mpaa", "money");
         c4.addCompte(new CompteBancaire("MPAA - Lobbying funds",5000000));
         creerClient(c4);
-        
         
         Client c5 = new Client("Scientology church","scientology", "hacked");
         c5.addCompte(new CompteBancaire("Scientology - Thx 4 the $$$ - Anonymous",-5000000));
@@ -182,6 +183,30 @@ public class GestionnaireDeComptesBancaires {
     
     public Client login(String login, String password){
         Client c = getClientByLogin(login);
+        String passwordHash = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            passwordHash = convertToHex(md.digest(password.getBytes()));
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+
+        
+        if(c!=null){
+          if(c.getPassword().equals(passwordHash)){
+              System.out.println("password ["+c.getPassword()+"] correct");
+              return c;
+          }
+        } else{
+            System.out.println("password "+password+" incorect : "+c.getPassword()+"!="+passwordHash);
+            return null;
+        }
+        return null;
+    }
+    
+    public Client loginAlreadyHashed(String login, String password){
+        Client c = getClientByLogin(login);
+        
         if(c!=null){
           if(c.getPassword().equals(password)){
               System.out.println("password ["+c.getPassword()+"] correct");
@@ -192,6 +217,22 @@ public class GestionnaireDeComptesBancaires {
             return null;
         }
         return null;
+    }
+    
+    private static String convertToHex(byte[] data) { 
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < data.length; i++) { 
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do { 
+                if ((0 <= halfbyte) && (halfbyte <= 9)) 
+                    buf.append((char) ('0' + halfbyte));
+                else 
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = data[i] & 0x0F;
+            } while(two_halfs++ < 1);
+        } 
+        return buf.toString();
     }
     
     
