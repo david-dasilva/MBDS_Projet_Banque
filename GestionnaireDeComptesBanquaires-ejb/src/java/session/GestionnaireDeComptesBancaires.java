@@ -65,12 +65,12 @@ public class GestionnaireDeComptesBancaires {
         
         // quelques comptes pour le fun
         Client c1 = new Client("* Anonymous United! *", "anonymous", "p@s$w0rd");
-        c1.addCompte(new CompteBancaire("Anonymous's looting",77777));
+        c1.addCompte(new CompteBancaire("Anonymous's looting",377577));
         c1.addCompte(new CompteBancaire("Anonymous's savings",1337000));
         creerClient(c1);
         
         Client c2 = new Client("Hadopi","hadopi", "gné?");
-        c2.addCompte(new CompteBancaire("Hadopi - compte courant",-200000));
+        c2.addCompte(new CompteBancaire("Hadopi - compte courant",200000));
         creerClient(c2);
         
         Client c3 = new Client("Wikileaks","wikileaks", "helloFBI");
@@ -84,7 +84,16 @@ public class GestionnaireDeComptesBancaires {
         Client c5 = new Client("Scientology church","scientology", "hacked");
         c5.addCompte(new CompteBancaire("Scientology - Thx 4 the $$$ - Anonymous",-5000000));
         creerClient(c5);
-  
+        
+        // Opérations pour le fun
+        List<CompteBancaire> listeCompteAnonymous = c1.getComptes();
+        List<CompteBancaire> listeCompteHadopi = c2.getComptes();
+        CompteBancaire cpt1 = listeCompteAnonymous.get(0);
+        CompteBancaire cpt2 = listeCompteHadopi.get(0);
+        cpt1.deposer(400);
+        cpt1.retirer(200);
+        transfert(cpt2.getId(), cpt1.getId(), 400000);
+        
         // reste des comptes randoms
         int i = 0;
         for(String nom : liste.keySet()){
