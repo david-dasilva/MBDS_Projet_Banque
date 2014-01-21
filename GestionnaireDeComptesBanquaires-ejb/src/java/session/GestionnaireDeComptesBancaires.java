@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +17,7 @@ import utils.ListeDonneesDeTest;
  * Facade CRUD sur Comptes Bancaires
  * @author David Da Silva
  */
+@LocalBean
 @Stateless(mappedName="gestionnaireBancaire")
 public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
     @PersistenceContext()
