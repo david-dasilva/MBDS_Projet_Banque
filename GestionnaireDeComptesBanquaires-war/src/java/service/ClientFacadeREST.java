@@ -1,9 +1,15 @@
 package service;
 
 
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.xml.wss.impl.misc.Base64;
 import entities.Client;
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -13,7 +19,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import session.GestionnaireDeComptesBancaires;
 
 /**
@@ -84,10 +93,15 @@ public class ClientFacadeREST {
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Client find(@PathParam("id") Long id) {
+    public Client find(@Context HttpServletRequest req, @PathParam("id") Long id) {
         
-        
-        return g.getClient(id);
+        if(canAccess(getLoggedUserId(req), id))
+            return g.getClient(id);
+        else{
+            System.err.println("L'utilisateur ayant l'id "+ getLoggedUserId(req)+ 
+                    " n'est pas autorisé a consulter des ressource de l'utilisateur "+id);
+            throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN).build());
+        }
     }
 
     @GET
@@ -148,24 +162,33 @@ public class ClientFacadeREST {
     }
     
     
-    
-    private long getIdOfUser(){
-        
-        
-        
-        // TODO :  je veux acceder à la ligne Authorization: Basic XXX des header HTTP ici
-        
-        
-        String login = "";
-        String password = "";
-        
-        
-        
-        Client c = g.login(login, password);
-        if(c != null)
-            return c.getId();
-        return 0;
+    /**
+     * Cette methode extrait le login et password du header HTTP Authorization
+     * et renvoie l'id de l'utilisateur
+     * @param req
+     * @return l'id de l'utilisateur si identifiants corrects, 0 sinon
+     */
+    private long getLoggedUserId(HttpServletRequest req){
+        try {
+            String AuthLine = req.getHeader("authorization");
+            if(AuthLine == null)
+                return 0;
+            String base64Credentials = AuthLine.substring("Basic".length()).trim();
+            String credentials = new String(Base64.decode(base64Credentials), Charset.forName("UTF-8"));
+            // credentials = username:password
+            String[] values = credentials.split(":", 2);
+            
+            Client c = g.login(values[0], values[1]);
+            if(c != null)
+                return c.getId();
+            return 0;
+
+        } catch (Base64DecodingException ex) {
+            Logger.getLogger(ClientFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     }
+    
     
     private boolean canAccess(long idUser, long idAsked){
         
