@@ -85,6 +85,8 @@ public class ClientFacadeREST {
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Client find(@PathParam("id") Long id) {
+        
+        
         return g.getClient(id);
     }
 
@@ -143,6 +145,35 @@ public class ClientFacadeREST {
             return c.removeBeneficiaire(idCompte);
         }
         return null;
+    }
+    
+    
+    
+    private long getIdOfUser(){
+        
+        
+        
+        // TODO :  je veux acceder à la ligne Authorization: Basic XXX des header HTTP ici
+        
+        
+        String login = "";
+        String password = "";
+        
+        
+        
+        Client c = g.login(login, password);
+        if(c != null)
+            return c.getId();
+        return 0;
+    }
+    
+    private boolean canAccess(long idUser, long idAsked){
+        
+        if(idUser > 0){
+            if(idUser == 1 || (idUser == idAsked))
+                return true;
+        }
+        return false;
     }
     
     
