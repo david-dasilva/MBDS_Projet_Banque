@@ -16,8 +16,8 @@ import utils.ListeDonneesDeTest;
  * Facade CRUD sur Comptes Bancaires
  * @author David Da Silva
  */
-@Stateless
-public class GestionnaireDeComptesBancaires {
+@Stateless(mappedName="gestionnaireBancaire")
+public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
     @PersistenceContext()
     private EntityManager em;
 
@@ -211,6 +211,14 @@ public class GestionnaireDeComptesBancaires {
         }
         return null;
     }
+    
+    public boolean auth(String login, String password){
+        Client c = login(login, password);
+        if(c != null)
+            return true;
+        return false;
+    }
+    
     
     public Client loginAlreadyHashed(String login, String password){
         Client c = getClientByLogin(login);

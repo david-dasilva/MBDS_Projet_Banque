@@ -4,17 +4,18 @@
  */
 package service;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.xml.wss.impl.misc.Base64;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.InitialContext;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import session.RemoteGestionnaire;
 
 /**
  *
@@ -41,14 +42,19 @@ public class SecurityFilter implements ContainerRequestFilter {
         
                 // Vérification à la con, le temps de trouver comment faire un looking sur EJB pour comparer les credentials
                 // de la requete avec ceux de la base de données
-                if(!values[0].equals("anonymous") || !values[1].equals("p@s$w0rd")) {
+                
+                InitialContext ctx = new InitialContext();
+                RemoteGestionnaire g = (RemoteGestionnaire) ctx.lookup("gestionnaireBancaire");
+
+                if (g.auth(values[0], values[1]))
+                    System.out.println("OK pour "+values[0]+ " "+values[1]);
+                else {
                     System.out.println("Mauvais identifiants");
                     throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN)
                                             .entity("Mauvais identifiants").build());
-                }else {
-                    System.out.println("OK pour "+values[0]+ " "+values[1]);
                 }
-            } catch (Base64DecodingException ex) {
+            } catch (Exception ex) {
+                System.out.println("Exception dans le SecurityFilter");
                 Logger.getLogger(SecurityFilter.class.getName()).log(Level.SEVERE, null, ex);
             }
          
