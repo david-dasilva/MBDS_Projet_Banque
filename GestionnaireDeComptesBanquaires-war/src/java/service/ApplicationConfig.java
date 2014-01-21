@@ -38,6 +38,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(service.ClientFacadeREST.class);
         resources.add(service.CompteBancaireFacadeREST.class);
+        resources.add(service.SecurityFilter.class);
     }
     
 }

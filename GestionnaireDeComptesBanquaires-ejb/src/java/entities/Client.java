@@ -90,7 +90,7 @@ public class Client implements Serializable {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             this.password = convertToHex(md.digest(password.getBytes()));
-            System.out.println("Convertion de "+password+" en :"+this.password);
+            //System.out.println("Convertion de "+password+" en :"+this.password);
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
