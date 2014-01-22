@@ -55,6 +55,7 @@ public class ClientFacadeREST {
      * @return l'id du client crée
      */
     @POST
+    @NecessiteBasicAuth
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public long create(@FormParam(FIELD_NOM) String nom, 
@@ -76,6 +77,7 @@ public class ClientFacadeREST {
      * @return le client mis à jour
      */
     @PUT
+    @NecessiteBasicAuth
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public Client edit(@Context HttpServletRequest req, 
@@ -162,6 +164,7 @@ public class ClientFacadeREST {
      * @return le client trouvé, null sinon.
      */
     @GET
+    @NecessiteBasicAuth
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public Client find(@Context HttpServletRequest req,
@@ -184,6 +187,7 @@ public class ClientFacadeREST {
      * @return une liste d'objets Client
      */
     @GET
+    @NecessiteBasicAuth
     @Produces({"application/xml", "application/json"})
     public List<Client> findAll(@Context HttpServletRequest req) {
         Client loggedClient = getLoggedUser(req);
@@ -205,6 +209,7 @@ public class ClientFacadeREST {
      * @return une liste d'objets Client
      */
     @GET
+    @NecessiteBasicAuth
     @Path("{from}/{limit}")
     @Produces({"application/xml", "application/json"})
     public List<Client> findRange(@Context HttpServletRequest req,
@@ -230,6 +235,7 @@ public class ClientFacadeREST {
      * @return 
      */
     @GET
+    @NecessiteBasicAuth
     @Path("count")
     @Produces("text/plain")
     public int countREST(@Context HttpServletRequest req) {
@@ -257,6 +263,7 @@ public class ClientFacadeREST {
      * @return          le client mis à jour
      */
     @POST
+    @NecessiteBasicAuth
     @Path("benef")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
@@ -291,6 +298,7 @@ public class ClientFacadeREST {
      * @return l'ancien label si ok, null sinon
      */
     @PUT
+    @NecessiteBasicAuth
     @Path("benef")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
@@ -324,6 +332,7 @@ public class ClientFacadeREST {
      * @return le label du bénéficiaire supprimé, null sinon
      */
     @DELETE
+    @NecessiteBasicAuth
     @Path("benef/{id}/{idCompte}")
     @Produces({"application/xml", "application/json"})
     public String removeBeneficiaire(@Context HttpServletRequest req, 
@@ -408,7 +417,6 @@ public class ClientFacadeREST {
                     " n'est pas autorisé a consulter des ressource de l'utilisateur "+idAsked);
             throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN).build());
     }
-    
     
 
 }

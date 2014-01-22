@@ -24,6 +24,7 @@ import session.RemoteGestionnaire;
  * @author David Da Silva
  * @source Sebastien Cano
  */
+@NecessiteBasicAuth
 @Provider
 public class SecurityFilter implements ContainerRequestFilter {
    
@@ -42,8 +43,6 @@ public class SecurityFilter implements ContainerRequestFilter {
                 // credentials = username:password
                 String[] values = credentials.split(":", 2);
         
-                // Vérification à la con, le temps de trouver comment faire un looking sur EJB pour comparer les credentials
-                // de la requete avec ceux de la base de données
                 
                 InitialContext ctx = new InitialContext();
                 RemoteGestionnaire g = (RemoteGestionnaire) ctx.lookup("gestionnaireBancaire");
@@ -61,6 +60,7 @@ public class SecurityFilter implements ContainerRequestFilter {
             }
          
         } else {
+
             System.out.println("Pas de BasicAuth fourni, pas d'accès!");
             throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN).build());
         }

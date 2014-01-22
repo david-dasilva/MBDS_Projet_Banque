@@ -184,14 +184,12 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
         Client c = null;
         try{
             c = (Client)q.getSingleResult();
-        }catch (Exception e){
-            
-        }
-        if (c != null)
             System.out.println("trouvé :"+c.toString());
-        else
+            return c;
+        }catch (Exception e){
             System.out.println("rien trouvé");
-        return c;
+            return null;
+        }
     }
     
     public Client login(String login, String password){
@@ -232,12 +230,14 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
           if(c.getPassword().equals(password)){
               System.out.println("password ["+c.getPassword()+"] correct");
               return c;
+          } else {
+              System.out.println("password incorect : "+c.getPassword()+" != "+password);
+              return null;
           }
         } else{
-            System.out.println("password incorect : "+c.getPassword()+"!="+password);
+            System.out.println("password incorect : "+password);
             return null;
         }
-        return null;
     }
     
     private static String convertToHex(byte[] data) { 

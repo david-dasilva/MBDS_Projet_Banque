@@ -57,6 +57,7 @@ public class CompteBancaireFacadeREST {
      * @return l'id du compte bancaire crée
      */
     @POST
+    @NecessiteBasicAuth
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public long create(@FormParam(FIELD_ID_CLIENT) long idClient,
@@ -84,6 +85,7 @@ public class CompteBancaireFacadeREST {
      * @return le compte bancaire mis à jour.
      */
     @PUT
+    @NecessiteBasicAuth
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public CompteBancaire edit(@Context HttpServletRequest req, 
@@ -115,6 +117,7 @@ public class CompteBancaireFacadeREST {
      * @param id 
      */
     @DELETE
+    @NecessiteBasicAuth
     @Path("{id}")
     public void remove(@Context HttpServletRequest req, @PathParam("id") Long id) {
         
@@ -138,6 +141,7 @@ public class CompteBancaireFacadeREST {
      * @return le compte bancaire mis à jour
      */
     @GET
+    @NecessiteBasicAuth
     @Path("deposer/{id}/{montant}")
     @Produces({"application/xml", "application/json"})
     public CompteBancaire deposer(@Context HttpServletRequest req, @PathParam("id") Long id, @PathParam("montant") Long montant){
@@ -168,6 +172,7 @@ public class CompteBancaireFacadeREST {
      * @return le compte bancaire mis à jour
      */
     @GET
+    @NecessiteBasicAuth
     @Path("retirer/{id}/{montant}")
     @Produces({"application/xml", "application/json"})
     public CompteBancaire retirer(@Context HttpServletRequest req, @PathParam("id") Long id, @PathParam("montant") Long montant){
@@ -199,6 +204,7 @@ public class CompteBancaireFacadeREST {
      * @return le solde du compte emeteur après transfert ou 0 si erreur.
      */
     @GET
+    @NecessiteBasicAuth
     @Path("transferer/{id_from}/{id_to}/{montant}")
     public double transferer(@Context HttpServletRequest req, 
                             @PathParam("id_from") Long id_from, 
@@ -228,6 +234,7 @@ public class CompteBancaireFacadeREST {
      * @return le compte bancaire trouvé, null sinon.
      */
     @GET
+    @NecessiteBasicAuth
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
     public CompteBancaire find(@Context HttpServletRequest req, 
@@ -250,6 +257,7 @@ public class CompteBancaireFacadeREST {
      * @return une liste d'objets CompteBancaire
      */
     @GET
+    @NecessiteBasicAuth
     @Produces({"application/xml", "application/json"})
     public List<CompteBancaire> findAll(@Context HttpServletRequest req) {
         
@@ -272,6 +280,7 @@ public class CompteBancaireFacadeREST {
      * @return une liste d'objets CompteBancaire
      */
     @GET
+    @NecessiteBasicAuth
     @Path("{from}/{limit}")
     @Produces({"application/xml", "application/json"})
     public List<CompteBancaire> findRange(@Context HttpServletRequest req, @PathParam("from") Integer from, @PathParam("limit") Integer limit) {
@@ -296,6 +305,7 @@ public class CompteBancaireFacadeREST {
      * @return une collection d'objets OperationBancaire.
      */
     @GET
+    @NecessiteBasicAuth
     @Path("operations/{id}")
     @Produces({"application/xml", "application/json"})
     public Collection<OperationBancaire> getOperations(@Context HttpServletRequest req, 
@@ -318,6 +328,7 @@ public class CompteBancaireFacadeREST {
      * @return
      */
     @GET
+    @NecessiteBasicAuth
     @Path("count")
     @Produces("text/plain")
     public int countREST(@Context HttpServletRequest req) {
