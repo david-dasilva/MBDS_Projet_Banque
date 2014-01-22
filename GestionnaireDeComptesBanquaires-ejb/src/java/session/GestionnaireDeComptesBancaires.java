@@ -116,14 +116,17 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
      * @param id1 id du compte source
      * @param id2 id du compte destinataire
      * @param montant 
-     * @return le solde du compte source après transaction
+     * @return true si tout est ok, false sinon
      */
-    public double transfert(long id1, long id2, double montant) {
+    public boolean transfert(long id1, long id2, double montant) {
         CompteBancaire c1 = em.find(CompteBancaire.class, id1);
         CompteBancaire c2 = em.find(CompteBancaire.class, id2);
-        c1.retirer(montant);
-        c2.deposer(montant);
-        return c1.getSolde();
+        if (c1 != null && c2 != null){
+            c1.retirer(montant);
+            c2.deposer(montant);
+            return true;
+        }
+        return false;
     }
     
     /**
