@@ -216,7 +216,7 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
     }
     
     public boolean auth(String login, String password){
-        Client c = login(login, password);
+        Client c = loginAlreadyHashed(login, password);
         if(c != null)
             return true;
         return false;

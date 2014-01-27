@@ -373,7 +373,7 @@ public class ClientFacadeREST {
             // credentials = username:password
             String[] values = credentials.split(":", 2);
             
-            Client c = g.login(values[0], values[1]);
+            Client c = g.loginAlreadyHashed(values[0], values[1]);
             if(c != null)
                 return c;
             return null;

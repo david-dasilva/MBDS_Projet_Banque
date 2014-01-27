@@ -34,6 +34,7 @@ public class SecurityFilter implements ContainerRequestFilter {
         System.out.println("--- SecurityFilter ---");
         
         String authorization = requestContext.getHeaderString("Authorization");
+        System.out.println("Authorization line : "+authorization);
         if (authorization != null && authorization.startsWith("Basic")) {
             try {
                 // Authorization: Basic base64credentials
