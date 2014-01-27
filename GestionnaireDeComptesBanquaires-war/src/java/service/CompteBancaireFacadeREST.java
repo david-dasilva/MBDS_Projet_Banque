@@ -84,8 +84,9 @@ public class CompteBancaireFacadeREST {
      * @param solde
      * @return le compte bancaire mis à jour.
      */
-    @PUT
+    @POST
     @NecessiteBasicAuth
+    @Path("edit")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public CompteBancaire edit(@Context HttpServletRequest req, 
