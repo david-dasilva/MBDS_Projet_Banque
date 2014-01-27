@@ -76,9 +76,8 @@ public class ClientFacadeREST {
      * @param password
      * @return le client mis à jour
      */
-    @POST
+    @PUT
     @NecessiteBasicAuth
-    @Path("edit")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public Client edit(@Context HttpServletRequest req, 
@@ -298,9 +297,9 @@ public class ClientFacadeREST {
      * @param label
      * @return l'ancien label si ok, null sinon
      */
-    @POST
+    @PUT
     @NecessiteBasicAuth
-    @Path("benef/edit")
+    @Path("benef")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
     public String editBeneficiaire(@Context HttpServletRequest req, 
