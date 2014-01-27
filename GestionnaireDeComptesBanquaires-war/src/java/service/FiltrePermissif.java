@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Ce filtre sert a remplacer l'ancienne configuration de CORS.
@@ -29,7 +30,13 @@ public class FiltrePermissif implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // Ne rien faire de particulier
+        
+        HttpServletResponse res = (HttpServletResponse) response;
+        //Dire qu'on accepte des requetes de n'importe quel domaine sur les ressources gérés par la servlet
+        res.addHeader("Access-Control-Allow-Origin", "*");
+        res.addHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, UPDATE, OPTIONS");
+        res.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept");
+        
         chain.doFilter(request, response);
     }
 
