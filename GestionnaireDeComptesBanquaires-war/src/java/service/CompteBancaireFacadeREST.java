@@ -124,7 +124,7 @@ public class CompteBancaireFacadeREST {
         Client loggedUser = getLoggedUser(req);
         
         if (canAccess(loggedUser, id)){
-            g.delete(g.getCompte(id));
+            g.delete(loggedUser.getId(),g.getCompte(id));
         } else {
             error403(loggedUser, id);
         }

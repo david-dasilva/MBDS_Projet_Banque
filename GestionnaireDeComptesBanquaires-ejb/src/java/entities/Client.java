@@ -43,7 +43,7 @@ public class Client implements Serializable {
      */
     private HashMap<Long,String> beneficiaires;
     
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<CompteBancaire> comptes;
     
     

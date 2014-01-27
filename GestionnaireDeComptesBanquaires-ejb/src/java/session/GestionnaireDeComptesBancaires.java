@@ -2,8 +2,10 @@ package session;
 
 import entities.Client;
 import entities.CompteBancaire;
+import entities.OperationBancaire;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -322,14 +324,26 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
     }
     
     public void delete(Client c){
-        em.createQuery("delete from client c where c.id="+c.getId()).executeUpdate();
+        em.remove(em.merge(c));
     }
     
     /**
      * Supprime un compte bancaire
      * @param c 
      */
-    public void delete(CompteBancaire c) {
-        em.createQuery("delete from CompteBancaire c where c.id=" + c.getId()).executeUpdate();
+    public void delete(long idClient,CompteBancaire c) {
+        
+        Client client = em.find(Client.class, idClient);
+        client.removeCompte(c);
+        
+        CompteBancaire cManaged = em.merge(c);
+        Collection<OperationBancaire> operations = cManaged.getOperations();
+        
+        for(OperationBancaire op : operations){
+            System.out.println("Operation :"+op.getId());
+            em.remove(op);
+        }
+
+        em.remove(em.merge(c));
     }
 }

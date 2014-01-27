@@ -173,7 +173,7 @@ public class ComptesMBean implements Serializable{
     
     public String delete() {  
         System.out.println("### DELETE du compte "+idCompte);
-        g.delete(compte);
+        g.delete(login.getIdClient(),compte);
         // MAJ
         //this.tousLesComptes = getAllComptes();// refresh
         return redirectTo(PAGE_LISTE_COMPTES, true, null);
