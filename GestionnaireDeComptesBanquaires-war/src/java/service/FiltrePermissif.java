@@ -33,9 +33,10 @@ public class FiltrePermissif implements Filter {
         
         HttpServletResponse res = (HttpServletResponse) response;
         //Dire qu'on accepte des requetes de n'importe quel domaine sur les ressources gérés par la servlet
-        res.addHeader("Access-Control-Allow-Origin", "*");
+        res.addHeader("Access-Control-Allow-Origin", "http://localhost");
+        res.addHeader("Access-Control-Allow-Credentials", "true");
         res.addHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, UPDATE, OPTIONS");
-        res.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept");
+        res.addHeader("Access-Control-Allow-Headers", "Authorization, origin, content-type, accept");
         
         chain.doFilter(request, response);
     }
