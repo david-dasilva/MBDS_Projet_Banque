@@ -25,6 +25,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import session.GestionnaireDeComptesBancaires;
 
@@ -88,11 +89,12 @@ public class CompteBancaireFacadeREST {
     @NecessiteBasicAuth
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public CompteBancaire edit(@Context HttpServletRequest req, 
-                            @FormParam(FIELD_ID_COMPTE) long idCompte, 
-                            @FormParam(FIELD_NOM) String nom, 
-                            @FormParam(FIELD_SOLDE) long solde) {
+    public CompteBancaire edit(@Context HttpServletRequest req,
+                            MultivaluedMap<String, String> inFormParams) {
         
+        long idCompte = Long.parseLong(inFormParams.getFirst(FIELD_ID_COMPTE));
+        String nom = inFormParams.getFirst(FIELD_NOM);
+        long solde = Long.parseLong(inFormParams.getFirst(FIELD_SOLDE));
         Client loggedUser = getLoggedUser(req);
         
         if(canAccess(loggedUser, idCompte)){

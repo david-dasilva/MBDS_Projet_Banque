@@ -22,6 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import session.GestionnaireDeComptesBancaires;
 
@@ -80,11 +81,15 @@ public class ClientFacadeREST {
     @NecessiteBasicAuth
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public Client edit(@Context HttpServletRequest req, 
-                    @FormParam(FIELD_ID) long id,
-                    @FormParam(FIELD_NOM) String nom,
-                    @FormParam(FIELD_LOGIN) String login,
-                    @FormParam(FIELD_PASSWORD) String password) {
+    public Client edit(@Context HttpServletRequest req,
+                    MultivaluedMap<String, String> inFormParams) {
+        
+        long id = Long.parseLong(inFormParams.getFirst(FIELD_ID));
+        String nom = inFormParams.getFirst(FIELD_NOM);
+        String login = inFormParams.getFirst(FIELD_LOGIN);
+        String password = inFormParams.getFirst(FIELD_PASSWORD);
+        
+        
         
         Client loggedClient = getLoggedUser(req);
         
@@ -239,7 +244,7 @@ public class ClientFacadeREST {
     @Path("count")
     @Produces("text/plain")
     public int countREST(@Context HttpServletRequest req) {
-        
+
         Client loggedClient = getLoggedUser(req);
         
         if(canAccess(loggedClient, ACCESS_ALL))
@@ -302,10 +307,12 @@ public class ClientFacadeREST {
     @Path("benef")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public String editBeneficiaire(@Context HttpServletRequest req, 
-                                @FormParam(FIELD_ID) long id, 
-                                @FormParam(FIELD_BENEF_ID) long idCompte, 
-                                @FormParam(FIELD_BENEF_LABEL) String label){
+    public String editBeneficiaire(@Context HttpServletRequest req,
+                                MultivaluedMap<String, String> inFormParams){
+        
+        long id = Long.parseLong(inFormParams.getFirst(FIELD_ID));
+        long idCompte = Long.parseLong(inFormParams.getFirst(FIELD_BENEF_ID));
+        String label = inFormParams.getFirst(FIELD_BENEF_LABEL);
         
         Client loggedClient = getLoggedUser(req);
         
