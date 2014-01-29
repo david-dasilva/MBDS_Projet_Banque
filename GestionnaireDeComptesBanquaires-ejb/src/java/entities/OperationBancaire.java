@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
  * @author David Da Silva
  */
 @Entity
-public class OperationBancaire implements Serializable {
+public class OperationBancaire implements Serializable, Comparable<OperationBancaire> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -92,6 +92,11 @@ public class OperationBancaire implements Serializable {
     @Override
     public String toString() {
         return "entities.OperationBancaire[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(OperationBancaire o) {
+        return this.getDateOperation().compareTo(o.dateOperation);
     }
     
 }
