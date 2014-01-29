@@ -1,7 +1,7 @@
 package service;
 
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+
 import com.sun.xml.wss.impl.misc.Base64;
 import entities.Client;
 import entities.CompteBancaire;
@@ -483,7 +483,7 @@ public class CompteBancaireFacadeREST {
                 return c;
             return null;
 
-        } catch (Base64DecodingException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ClientFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }

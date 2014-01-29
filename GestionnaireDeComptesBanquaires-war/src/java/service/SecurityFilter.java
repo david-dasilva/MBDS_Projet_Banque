@@ -4,14 +4,12 @@
  */
 package service;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.xml.wss.impl.misc.Base64;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -55,7 +53,7 @@ public class SecurityFilter implements ContainerRequestFilter {
                     throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN)
                                             .entity("Mauvais identifiants").build());
                 }
-            } catch (Base64DecodingException | NamingException ex) {
+            } catch (Exception ex) {
                 System.out.println("Exception dans le SecurityFilter");
                 Logger.getLogger(SecurityFilter.class.getName()).log(Level.SEVERE, null, ex);
             }
