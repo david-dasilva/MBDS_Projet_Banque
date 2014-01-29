@@ -256,7 +256,7 @@ Type : **POST**
 
 Parametres : **application/x-www-form-urlencoded**
 * **idClient** - l'id du client a modifier
-* **idBeneficiaire** - l'id du bénéficiaire à ajouter
+* **idBeneficiaire** - l'id du compte bénéficiaire à ajouter (id de compte bancaire)
 * **labelBeneficiaire** - le label de ce beneficiaire (ex : "proprio")
 
 Retour : L'objet Client modifié en JSON
@@ -280,7 +280,7 @@ Retour : L'objet Client modifié en JSON
 ```
 
 
-Ajouter un bénéficiaire à un  client
+Modifier un bénéficiaire
 ------
 
 URL : **/api/client/benef**
@@ -289,7 +289,7 @@ Type : **PUT**
 
 Parametres : **application/x-www-form-urlencoded**
 * **idClient** - l'id du client a modifier
-* **idBeneficiaire** - l'id du CompteBancaire bénéficiaire à ajouter
+* **idBeneficiaire** - l'id du compte bénéficiaire à modifier (id de compte bancaire) si le bénéficiaire n'existe pas, il est crée
 * **labelBeneficiaire** - le label de ce beneficiaire (ex : "proprio")
 
 Retour : L'objet Client modifié en JSON
@@ -313,7 +313,7 @@ Retour : L'objet Client modifié en JSON
 ```
 
 
-Ajouter un bénéficiaire à un  client
+Supprimer un bénéficiaire
 ------
 
 URL : **/api/client/benef/{id}/{idCompte}/**
