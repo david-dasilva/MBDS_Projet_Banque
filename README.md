@@ -16,6 +16,10 @@ Webservices
 
 Pour un serveur sur *http://localhost:8080/GestionnaireDeComptesBanquaires-war/*
 
+L'utilisation des Webservices nécéssite des identifiants (login/password Client) valides, fournis dans le Basic Auth.
+
+
+
 Liste de tous les clients
 ------
 

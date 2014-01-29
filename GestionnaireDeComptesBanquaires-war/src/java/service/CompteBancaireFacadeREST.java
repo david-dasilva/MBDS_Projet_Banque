@@ -132,6 +132,7 @@ public class CompteBancaireFacadeREST {
         }
     }
 
+    
     /**
      * Déposer de l'argent sur un compte bancaire.
      * Il suffit de dire "je veux déposer 500€" pour que 500€ apparaissent
@@ -146,7 +147,9 @@ public class CompteBancaireFacadeREST {
     @NecessiteBasicAuth
     @Path("deposer/{id}/{montant}")
     @Produces({"application/xml", "application/json"})
-    public CompteBancaire deposer(@Context HttpServletRequest req, @PathParam("id") Long id, @PathParam("montant") Long montant){
+    public CompteBancaire deposer(@Context HttpServletRequest req, 
+                            @PathParam("id") Long id, 
+                            @PathParam("montant") Long montant){
         
         Client loggedUser = getLoggedUser(req);
         
@@ -164,6 +167,42 @@ public class CompteBancaireFacadeREST {
     }
     
     /**
+     * Déposer de l'argent sur un compte bancaire.
+     * Il suffit de dire "je veux déposer 500€" pour que 500€ apparaissent
+     * sur le compte. Magie! :-P
+     * Accès restreint.
+     * @param req
+     * @param id
+     * @param montant
+     * @param description
+     * @return le compte bancaire mis à jour
+     */
+    @GET
+    @NecessiteBasicAuth
+    @Path("deposer/{id}/{montant}/{description}")
+    @Produces({"application/xml", "application/json"})
+    public CompteBancaire deposer(@Context HttpServletRequest req, 
+                            @PathParam("id") Long id, 
+                            @PathParam("montant") Long montant,
+                            @PathParam("description") String description){
+        
+        Client loggedUser = getLoggedUser(req);
+        
+        if (canAccess(loggedUser, id)){
+            CompteBancaire cb = g.getCompte(id);
+            if(cb == null){
+                return null;
+            }
+            cb.deposer(description,montant);
+            return g.update(cb);
+        } else {
+            error403(loggedUser, id);
+            return null;
+        }
+    }
+    
+    
+    /**
      * Retirer de l'argent sur un compte bancaire.
      * Attention, si vous dites "je veux retirer 500€", l'argent disparait de
      * votre compte mais vous n'obtenez pas de billets. Disparition! :-P
@@ -177,7 +216,9 @@ public class CompteBancaireFacadeREST {
     @NecessiteBasicAuth
     @Path("retirer/{id}/{montant}")
     @Produces({"application/xml", "application/json"})
-    public CompteBancaire retirer(@Context HttpServletRequest req, @PathParam("id") Long id, @PathParam("montant") Long montant){
+    public CompteBancaire retirer(@Context HttpServletRequest req, 
+                                @PathParam("id") Long id, 
+                                @PathParam("montant") Long montant){
         
         Client loggedUser = getLoggedUser(req);
         
@@ -187,6 +228,42 @@ public class CompteBancaireFacadeREST {
                 return null;
             }
             cb.retirer(montant);
+            return g.update(cb);
+        } else {
+            error403(loggedUser, id);
+            return null;
+        }
+    }
+    
+    
+    /**
+     * Retirer de l'argent sur un compte bancaire.
+     * Attention, si vous dites "je veux retirer 500€", l'argent disparait de
+     * votre compte mais vous n'obtenez pas de billets. Disparition! :-P
+     * Accès restreint.
+     * @param req
+     * @param id
+     * @param montant
+     * @param description
+     * @return le compte bancaire mis à jour
+     */
+    @GET
+    @NecessiteBasicAuth
+    @Path("retirer/{id}/{montant}/{description}")
+    @Produces({"application/xml", "application/json"})
+    public CompteBancaire retirer(@Context HttpServletRequest req, 
+                                @PathParam("id") Long id, 
+                                @PathParam("montant") Long montant,
+                                @PathParam("description") String description){
+        
+        Client loggedUser = getLoggedUser(req);
+        
+        if (canAccess(loggedUser, id)){
+            CompteBancaire cb = g.getCompte(id);
+            if(cb == null){
+                return null;
+            }
+            cb.retirer(description,montant);
             return g.update(cb);
         } else {
             error403(loggedUser, id);
@@ -217,6 +294,40 @@ public class CompteBancaireFacadeREST {
         
         if (canAccess(loggedUser, id_from)){
             if (g.transfert(id_from, id_to, montant))
+                return g.getCompte(id_from).getSolde();
+            return 0;
+        } else {
+            error403(loggedUser, id_from);
+            return 0;
+        }
+    }
+    
+    
+    /**
+     * Transferer une somme d'argent d'un compte à un autre.
+     * Pas de contrainte sur le destinataire, idéalement il devrait être dans 
+     * la liste des bénéficiaires.
+     * Accès restreint.
+     * @param req
+     * @param id_from
+     * @param id_to
+     * @param montant
+     * @param description
+     * @return le solde du compte emeteur après transfert ou 0 si erreur.
+     */
+    @GET
+    @NecessiteBasicAuth
+    @Path("transferer/{id_from}/{id_to}/{montant}/{description}")
+    public double transferer(@Context HttpServletRequest req, 
+                            @PathParam("id_from") Long id_from, 
+                            @PathParam("id_to") Long id_to, 
+                            @PathParam("montant") Long montant,
+                            @PathParam("description") String description){
+        
+        Client loggedUser = getLoggedUser(req);
+        
+        if (canAccess(loggedUser, id_from)){
+            if (g.transfert(description,id_from, id_to, montant))
                 return g.getCompte(id_from).getSolde();
             return 0;
         } else {
