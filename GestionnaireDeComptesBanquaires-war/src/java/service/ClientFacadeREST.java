@@ -1,7 +1,6 @@
 package service;
 
 
-import com.sun.xml.wss.impl.misc.Base64;
 import entities.Client;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -23,6 +22,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import org.primefaces.util.Base64;
 import session.GestionnaireDeComptesBancaires;
 
 /**

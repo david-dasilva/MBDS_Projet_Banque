@@ -2,7 +2,7 @@ package service;
 
 
 
-import com.sun.xml.wss.impl.misc.Base64;
+import org.primefaces.util.Base64;
 import entities.Client;
 import entities.CompteBancaire;
 import entities.OperationBancaire;
