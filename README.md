@@ -6,10 +6,13 @@ Projet de création d'un gestionnaire de comptes bancaires basique pour s'exerce
 [Sujet du rendu](
 http://miageprojet2.unice.fr/Intranet_de_Michel_Buffa/Web_services_REST_%2f%2f_HTML5_MBDS_2013-2014/A_rendre_pour_les_cours_JavaEE%2f%2fWeb_2.0_MBDS_2013-2014)
 
-Date de rendu : **20/01/2014**
+Date de rendu : **31/01/2014**
 
 Serveur
 ===
+
+Penser a modifier votre le datasource de votre persistence.xml (le notre est toto)
+
 
 Webservices
 ===
