@@ -498,13 +498,14 @@ Retour : Une liste d'objets CompteBancaire en JSON
 Déposer
 ------
 
-URL : **/api/compte/deposer/{id}/{montant}**
+URL : **/api/compte/deposer/{id}/{montant}/{description}**
 
 Type : **GET**
 
 Parametres : **PathParam**
 * **{id}** - L'id du CompteBancaire a créditer
 * **{montant}** - le montant a créditer
+* **{description}** - la description de l'opération. optionnel
 
 
 Retour : L'objet CompteBancaire en JSON
@@ -526,13 +527,14 @@ Retour : L'objet CompteBancaire en JSON
 Retirer
 ------
 
-URL : **/api/compte/retirer/{id}/{montant}**
+URL : **/api/compte/retirer/{id}/{montant}/{description}**
 
 Type : **GET**
 
 Parametres : **PathParam**
 * **{id}** - L'id du CompteBancaire a débiter
 * **{montant}** - le montant a débiter
+* **{description}** - la description de l'opération. optionnel
 
 
 Retour : La liste des opérations du CompteBancaire en JSON
@@ -559,7 +561,7 @@ Retour : La liste des opérations du CompteBancaire en JSON
 Transferer
 ------
 
-URL : **/api/compte/transferer/{id\_from}/{id\_to}/{montant}**
+URL : **/api/compte/transferer/{id\_from}/{id\_to}/{montant}/{description}**
 
 Type : **GET**
 
@@ -567,6 +569,7 @@ Parametres : **PathParam**
 * **{id\_from}** - L'id du CompteBancaire a débiter
 * **{id\_to}** - L'id du CompteBancaire a créditer (normalement dans la liste des bénéficiaires)
 * **{montant}** - le montant a transferer
+* **{description}** - la description de l'opération. optionnel
 
 
 Retour : Le nouveau solde du compte ayant transferé l'argent en text/plain
