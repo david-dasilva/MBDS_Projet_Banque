@@ -282,7 +282,7 @@ public class ClientFacadeREST {
             Client c = g.getClient(id);
             if (c!=null){
                 c.addBeneficiaire(idCompte, label);
-                return c;
+                return g.update(c);
             }
             return null;
         }
@@ -318,7 +318,9 @@ public class ClientFacadeREST {
         if(canAccess(loggedClient, id)){
             Client c = g.getClient(id);
             if (c!=null){
-                return c.editBeneficiaire(idCompte, label);
+                String retour = c.editBeneficiaire(idCompte, label);
+                g.update(c);
+                return retour;
             }
             return null;
         } else {
@@ -350,7 +352,9 @@ public class ClientFacadeREST {
         if(canAccess(loggedClient, id)){
             Client c = g.getClient(id);
             if (c!=null){
-                return c.removeBeneficiaire(idCompte);
+                String retour = c.removeBeneficiaire(idCompte);
+                g.update(c);
+                return retour;
             }
             return null;
         } else {
