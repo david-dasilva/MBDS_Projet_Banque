@@ -93,9 +93,9 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
         List<CompteBancaire> listeCompteHadopi = c2.getComptes();
         CompteBancaire cpt1 = listeCompteAnonymous.get(0);
         CompteBancaire cpt2 = listeCompteHadopi.get(0);
-        cpt1.deposer(400);
-        cpt1.retirer(200);
-        transfert(cpt2.getId(), cpt1.getId(), 400000);
+        cpt1.deposer("Merry Christmas!",400);
+        cpt1.retirer("servers maintenance cost",200);
+        transfert("You've been hacked!",cpt2.getId(), cpt1.getId(), 400000);
         
         // reste des comptes randoms
         int i = 0;
@@ -115,20 +115,28 @@ public class GestionnaireDeComptesBancaires implements RemoteGestionnaire{
     /**
      * Effectue un transfert.
      * Tout se passe dans la même transaction
+     * @param desc description du transfert
      * @param id1 id du compte source
      * @param id2 id du compte destinataire
      * @param montant 
      * @return true si tout est ok, false sinon
      */
-    public boolean transfert(long id1, long id2, double montant) {
+    public boolean transfert(String desc,long id1, long id2, double montant) {
+        
+        desc = "Transfert : "+desc;
+        
         CompteBancaire c1 = em.find(CompteBancaire.class, id1);
         CompteBancaire c2 = em.find(CompteBancaire.class, id2);
         if (c1 != null && c2 != null){
-            c1.retirer(montant);
-            c2.deposer(montant);
+            c1.retirer(desc, montant);
+            c2.deposer(desc, montant);
             return true;
         }
         return false;
+    }
+    
+    public boolean transfert(long id1, long id2, double montant){
+        return transfert("Transfert", id1, id2, montant);
     }
     
     /**

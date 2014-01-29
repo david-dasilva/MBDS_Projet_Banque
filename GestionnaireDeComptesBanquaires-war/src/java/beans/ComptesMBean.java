@@ -119,7 +119,7 @@ public class ComptesMBean implements Serializable{
     
     public String transferer(){
         System.out.println("TRANSFERT "+montantTransfert+ " vers compte #"+destinationTransfert.getId());
-        g.transfert(compte.getId(), destinationTransfert.getId(), montantTransfert);
+        g.transfert("Transfert",compte.getId(), destinationTransfert.getId(), montantTransfert);
         return redirectTo(PAGE_DETAIL_COMPTE, true, "id="+compte.getId());
     }
     
@@ -147,8 +147,9 @@ public class ComptesMBean implements Serializable{
             System.out.println("Compte. connected. idCompte = "+idCompte);
             if(idCompte!=0){
                 
-                if(g.peutVoirCompte(login.getIdClient(), idCompte))
+                if(g.peutVoirCompte(login.getIdClient(), idCompte)){
                     this.compte = g.getCompte(idCompte);
+                }
             }
         }
     }

@@ -313,6 +313,7 @@ public class CompteBancaireFacadeREST {
     public Collection<OperationBancaire> getOperations(@Context HttpServletRequest req, 
                                                         @PathParam("id") Long id) {
         
+        System.out.println("WEBSERVICE_COMPTE.getOperations()");
         Client loggedUser = getLoggedUser(req);
         
         if (canAccess(loggedUser, id)){

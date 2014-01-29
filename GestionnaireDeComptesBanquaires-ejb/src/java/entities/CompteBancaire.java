@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class CompteBancaire implements Serializable {
     private String nom;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<OperationBancaire> operations = new ArrayList<>();
+    private ArrayList<OperationBancaire> operations = new ArrayList<>();
 
     public CompteBancaire() {
     }
@@ -75,12 +76,21 @@ public class CompteBancaire implements Serializable {
     }
     
     public Collection<OperationBancaire> getOperations(){
+        System.out.println("Je ne renvoie pas d'opérationsBancaires");
         return Collections.EMPTY_LIST;
     }
     
+    public ArrayList<OperationBancaire> getAllOperations(){
+        return operationsBancaires();
+    }
     
-    public Collection<OperationBancaire> operationsBancaires(){
+    public ArrayList<OperationBancaire> operationsBancaires(){
+        System.out.println("Je renvoie les opérationsBancaires, il y en a "+this.operations.size());
         return this.operations;
+    }
+    
+    public void setOperations(ArrayList<OperationBancaire> operations){
+        this.operations = operations;
     }
     
     
@@ -92,24 +102,37 @@ public class CompteBancaire implements Serializable {
     /**
      * Deposer de l'argent
      * @param montant
+     * @param description
      * @return le nouveau solde du compte
      */
-    public double deposer(double montant){
+    public double deposer(String description, double montant){
+        if(description.isEmpty()) description = "Crédit";
         solde += montant;
-        this.operations.add(new OperationBancaire("Crédit", montant));
+        this.operations.add(new OperationBancaire(description, montant));
         return solde;
     }
+    
+    public double deposer(double montant){
+        return deposer("Crédit",montant);
+    }
+    
+    
     
     /**
      * Retirer de l'argent
      * @param montant
+     * @param description
      */
-    public double retirer(double montant) {
-        
+    public double retirer(String description, double montant){
+        if(description.isEmpty()) description = "Débit";
         solde -= montant;
-        this.operations.add(new OperationBancaire("Débit", montant));
+        this.operations.add(new OperationBancaire(description, -montant));
         return solde;
-
+    }
+    
+    
+    public double retirer(double montant) {
+        return retirer("Débit", montant);
     }
     
     
