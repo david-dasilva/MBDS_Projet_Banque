@@ -292,23 +292,10 @@ Parametres : **application/x-www-form-urlencoded**
 * **idBeneficiaire** - l'id du compte bénéficiaire à modifier (id de compte bancaire) si le bénéficiaire n'existe pas, il est crée
 * **labelBeneficiaire** - le label de ce beneficiaire (ex : "proprio")
 
-Retour : L'objet Client modifié en JSON
+Retour : Le label du bénéficiaire modifié en JSON
 ```JSON
 {
-    id: 4
-    nom: "Hadopi"
-    login: "hadopi"
-    password: "ceeccd4e8d7c5f7396536d4beeb6e32d"
-    beneficiaires: {
-        2: "Donations to the Anonymous"
-    } -
-        comptes: [1]
-    0: {
-        id: 5
-        solde: -200000
-        nom: "Hadopi - compte courant"
-        operations: [0]
-    }
+    reponse : "Donations to the Anonymous"
 }
 ```
 
@@ -316,17 +303,19 @@ Retour : L'objet Client modifié en JSON
 Supprimer un bénéficiaire
 ------
 
-URL : **/api/client/benef/{id}/{idCompte}/**
+URL : **/api/client/benef/{id}/{idBeneficiaire}/**
 
 Type : **DELETE**
 
 Parametres : **PathParam**
 * **{id}** - l'id du client a modifier
-* **{idCompte}** - l'id du CompteBancaire beneficiaire a retirer
+* **{idBeneficiaire}** - l'id du CompteBancaire beneficiaire a retirer
 
-Retour : Le label du bénéficiaire supprimé, rien sinon (en text/plain)
+Retour : Le label du bénéficiaire supprimé, ou "non trouvé" (JSON)
 ```JSON
-Donations to the Anonymous
+{
+    reponse : "Donations to the Anonymous"
+}
 ```
 
 

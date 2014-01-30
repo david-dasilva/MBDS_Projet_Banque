@@ -2,6 +2,7 @@ package service;
 
 
 import entities.Client;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.logging.Level;
@@ -306,7 +307,7 @@ public class ClientFacadeREST {
     @Path("benef")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED,"application/xml", "application/json"})
     @Produces({"application/xml", "application/json"})
-    public String editBeneficiaire(@Context HttpServletRequest req,
+    public ValeurRetour editBeneficiaire(@Context HttpServletRequest req,
                                 MultivaluedMap<String, String> inFormParams){
         
         long id = Long.parseLong(inFormParams.getFirst(FIELD_ID));
@@ -320,9 +321,9 @@ public class ClientFacadeREST {
             if (c!=null){
                 String retour = c.editBeneficiaire(idCompte, label);
                 g.update(c);
-                return retour;
+                return new ValeurRetour(retour);
             }
-            return null;
+            return new ValeurRetour("non trouvé");
         } else {
             error403(loggedClient, id);
             return null;
@@ -343,7 +344,7 @@ public class ClientFacadeREST {
     @NecessiteBasicAuth
     @Path("benef/{id}/{idCompte}")
     @Produces({"application/xml", "application/json"})
-    public String removeBeneficiaire(@Context HttpServletRequest req, 
+    public ValeurRetour removeBeneficiaire(@Context HttpServletRequest req, 
                                     @PathParam("id") long id, 
                                     @PathParam("idCompte")long idCompte){
         
@@ -354,9 +355,9 @@ public class ClientFacadeREST {
             if (c!=null){
                 String retour = c.removeBeneficiaire(idCompte);
                 g.update(c);
-                return retour;
+                return new ValeurRetour(retour);
             }
-            return null;
+            return new ValeurRetour("non trouvé");
         } else {
             error403(loggedClient, id);
             return null;
@@ -429,4 +430,23 @@ public class ClientFacadeREST {
     }
     
 
+    private class ValeurRetour implements Serializable{
+        private String reponse;
+        
+        public ValeurRetour(){}
+        public ValeurRetour(String reponse){
+            this.reponse = reponse;
+        }
+
+        public String getReponse() {
+            return reponse;
+        }
+
+        public void setReponse(String reponse) {
+            this.reponse = reponse;
+        }
+        
+        
+    }
+    
 }
